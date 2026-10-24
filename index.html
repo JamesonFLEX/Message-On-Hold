@@ -509,6 +509,80 @@ body.playing{padding-bottom:84px}
   .callstage{min-height:228px;padding-top:78px}
   .info,.ticket{padding:13px 16px}
 }
+
+/* ===== audio mixer ===== */
+.demo-tabs{max-width:100%}
+.demo-tabs button{white-space:nowrap}
+.mix-tab{display:inline-flex;align-items:center;gap:8px}
+.mx-count{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#33B0E6;color:#03202f;font:700 .72rem var(--mono)}
+.demo-tabs button[aria-selected="true"] .mx-count{background:#fff;color:#b02e10}
+.track{grid-template-columns:auto 1fr auto auto}
+.mixadd{border:1px solid rgba(51,176,230,.55);background:rgba(51,176,230,.12);color:#cdeefb;font:700 .74rem var(--body);padding:7px 10px;border-radius:999px;cursor:pointer;white-space:nowrap;line-height:1;transition:background .15s,border-color .15s,color .15s;position:relative;z-index:1}
+.mixadd:hover{background:rgba(51,176,230,.25);color:#fff}
+.mixadd.on{background:#33B0E6;border-color:#33B0E6;color:#03202f}
+.mixer{background:linear-gradient(160deg,rgba(51,176,230,.10),rgba(226,64,24,.07)),var(--surface);border:1px solid var(--line);border-radius:20px;padding:clamp(16px,2.6vw,26px);display:grid;gap:18px}
+.mx-head{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center;justify-content:space-between}
+.mx-copy{display:grid;gap:4px;min-width:0;flex:1 1 280px}
+.mx-copy strong{font:700 1.15rem var(--display);color:#fff}
+.mx-copy span{color:var(--muted)}
+.mx-play{white-space:nowrap}
+.mx-play[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.mx-ic{display:inline-grid;width:16px;height:16px}.mx-ic svg{width:15px;height:15px;fill:currentColor}
+.mx-strips{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mx-strip{background:rgba(3,26,43,.55);border:1px dashed rgba(255,255,255,.22);border-radius:16px;padding:16px;display:grid;gap:8px;min-width:0}
+.mx-strip.set{border-style:solid;border-color:rgba(51,176,230,.55)}
+.mx-strip[data-kind="music"].set{border-color:rgba(226,64,24,.6)}
+.mx-lbl{display:flex;align-items:center;justify-content:space-between}
+.mx-tag{font:600 .72rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#33B0E6}
+.mx-strip[data-kind="music"] .mx-tag{color:#ff7a52}
+.mx-eq{display:inline-flex;gap:3px;align-items:flex-end;height:16px;opacity:.25}
+.mx-eq i{width:3px;height:4px;border-radius:2px;background:currentColor;color:#33B0E6}
+.mx-strip[data-kind="music"] .mx-eq i{color:#ff7a52}
+.mixer.live .mx-strip.set .mx-eq{opacity:1}
+.mixer.live .mx-strip.set .mx-eq i{animation:mxeq .9s ease-in-out infinite}
+.mixer.live .mx-strip.set .mx-eq i:nth-child(2){animation-delay:-.25s}.mixer.live .mx-strip.set .mx-eq i:nth-child(3){animation-delay:-.5s}.mixer.live .mx-strip.set .mx-eq i:nth-child(4){animation-delay:-.7s}
+@keyframes mxeq{0%,100%{height:4px}50%{height:16px}}
+.mx-name{font:700 1.08rem var(--display);color:#fff;overflow-wrap:anywhere}
+.mx-strip:not(.set) .mx-name{color:var(--muted);font-weight:600}
+.mx-sub{color:var(--muted);font-size:.86rem}
+.mx-fader{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;font:600 .74rem var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+.mx-fader input{width:100%;accent-color:#33B0E6}
+.mx-strip[data-kind="music"] .mx-fader input{accent-color:#E24018}
+.mx-fader input:disabled{opacity:.4}
+.mx-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.mx-pick,.mx-x{border:1px solid var(--line);background:transparent;color:#fff;font:600 .82rem var(--body);padding:8px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.mx-pick:hover,.mx-x:hover{background:rgba(255,255,255,.08)}
+.mx-x{color:#ffb4a1;border-color:rgba(226,64,24,.45)}
+.mx-prog{height:8px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden}
+.mx-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#33B0E6,#E24018);border-radius:999px}
+.mx-foot{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.mx-duck{display:inline-flex;gap:8px;align-items:center;color:var(--muted);font-size:.9rem;cursor:pointer}
+.mx-duck input{accent-color:#33B0E6;width:16px;height:16px}
+.mx-time{font:600 .82rem var(--mono);color:#fff;font-variant-numeric:tabular-nums}
+.mx-note{margin:0;color:var(--muted);font-size:.84rem}
+/* pop-up */
+.mix-pop{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;background:rgba(2,14,25,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;transition:opacity .2s}
+.mix-pop.in{opacity:1}
+.mix-pop[hidden]{display:none!important}
+.mix-card{width:min(420px,100%);background:linear-gradient(160deg,#0b3a57,#082b42);border:1px solid rgba(51,176,230,.4);border-radius:22px;padding:26px 24px 22px;text-align:center;display:grid;gap:10px;justify-items:center;box-shadow:0 40px 80px -30px rgba(0,0,0,.8);transform:translateY(14px) scale(.97);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.mix-pop.in .mix-card{transform:none}
+.mix-badge{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(140deg,#33B0E6,#E24018);box-shadow:0 14px 30px -12px #E24018}
+.mix-badge svg{width:28px;height:28px;stroke:#fff;stroke-width:2.2;fill:none;stroke-linecap:round}
+.mix-card h3{margin:6px 0 0;font:800 1.45rem var(--display);color:#fff}
+.mix-card p{margin:0;color:#cfe3f0}
+.mix-card p b{color:#fff}
+.mix-btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px;width:100%}
+.mix-btns .btn{flex:1 1 150px;justify-content:center}
+.mix-later{background:transparent;border:2px solid rgba(255,255,255,.3);color:#fff}
+@media (max-width:600px){
+  .demo-tabs{display:grid;grid-template-columns:auto auto;border-radius:22px;width:100%}
+  .demo-tabs button{font-size:clamp(.74rem,3.4vw,.92rem);padding:10px clamp(8px,2.6vw,16px);justify-content:center;text-align:center}
+  .demo-tabs .mix-tab{grid-column:1/-1;justify-content:center}
+  .mx-strips{grid-template-columns:1fr}
+  .mx-play{width:100%;justify-content:center}
+  .track{gap:10px;padding-right:10px}
+}
+@media (prefers-reduced-motion:reduce){.mixer.live .mx-strip.set .mx-eq i{animation:none;height:10px}}
 </style>
 </head>
 <body>
@@ -659,11 +733,45 @@ body.playing{padding-bottom:84px}
     <div class="demo-tabs" role="tablist" aria-label="Demo library">
       <button type="button" role="tab" aria-selected="true" data-lib="music">Music By Mood</button>
       <button type="button" role="tab" aria-selected="false" data-lib="voice">Your Voice Of Choice</button>
+      <button type="button" role="tab" aria-selected="false" data-lib="mixer" class="mix-tab">Audio Mixer<b class="mx-count" id="mxCount" hidden>0</b></button>
     </div>
     <p class="lib-intro" id="libIntro"></p>
     <div class="cats" role="tablist" id="cats" aria-label="Categories"></div>
     <ul class="tracks" id="tracks"></ul>
+    <div class="mixer" id="mixer" hidden>
+      <div class="mx-head">
+        <div class="mx-copy"><strong>Build your on-hold sound</strong><span>Pick one music bed and one voice, then hear them together the way your callers will.</span></div>
+        <button type="button" class="btn btn-primary mx-play" id="mxPlay" disabled><span class="mx-ic" id="mxPlayIc"></span><span id="mxPlayTx">Hear The Mix</span></button>
+      </div>
+      <div class="mx-strips">
+        <div class="mx-strip" id="mxVoice" data-kind="voice">
+          <div class="mx-lbl"><span class="mx-tag">Voice</span><span class="mx-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+          <div class="mx-name" id="mxVoiceName">No voice picked yet</div>
+          <div class="mx-sub" id="mxVoiceSub">Choose one in Your Voice Of Choice</div>
+          <label class="mx-fader"><span>Level</span><input type="range" min="0" max="100" value="100" id="mxVoiceLvl" aria-label="Voice level"></label>
+          <div class="mx-acts"><button type="button" class="mx-pick" data-go="voice">Choose a voice</button><button type="button" class="mx-x" data-rm="voice" aria-label="Remove voice from mixer" hidden>Remove</button></div>
+        </div>
+        <div class="mx-strip" id="mxMusic" data-kind="music">
+          <div class="mx-lbl"><span class="mx-tag">Music</span><span class="mx-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+          <div class="mx-name" id="mxMusicName">No music picked yet</div>
+          <div class="mx-sub" id="mxMusicSub">Choose one in Music By Mood</div>
+          <label class="mx-fader"><span>Level</span><input type="range" min="0" max="100" value="55" id="mxMusicLvl" aria-label="Music level"></label>
+          <div class="mx-acts"><button type="button" class="mx-pick" data-go="music">Choose music</button><button type="button" class="mx-x" data-rm="music" aria-label="Remove music from mixer" hidden>Remove</button></div>
+        </div>
+      </div>
+      <div class="mx-prog"><i id="mxBar"></i></div>
+      <div class="mx-foot"><label class="mx-duck"><input type="checkbox" id="mxDuck" checked> Lower the music while the voice talks</label><span class="mx-time" id="mxTime">0:00</span></div>
+      <p class="mx-note" id="mxNote" hidden>On iPhone, level sliders are controlled by your phone’s volume buttons; they work on computers and Android.</p>
+    </div>
     <p class="err" id="audioErr" hidden></p>
+    <div class="mix-pop" id="mixPop" hidden role="dialog" aria-modal="true" aria-labelledby="mixPopT">
+      <div class="mix-card">
+        <div class="mix-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg></div>
+        <h3 id="mixPopT">Your mix is ready!</h3>
+        <p id="mixPopD"></p>
+        <div class="mix-btns"><button type="button" class="btn btn-primary" id="mixPopGo">Hear The Mix</button><button type="button" class="btn mix-later" id="mixPopLater">Keep browsing</button></div>
+      </div>
+    </div>
     <div style="margin-top:26px"><a class="btn btn-primary" href="https://messageonholdphones.com/contact-us/">Ready to get started? Contact us</a></div>
   </div>
 </section>
@@ -828,6 +936,7 @@ function playTrack(t){
   document.getElementById("audioErr").hidden=true;
   if(current&&current.src===t.src){ audio.paused?audio.play().catch(fail):audio.pause(); return; }
   stopVideo();
+  if(window.__mixStop)window.__mixStop();         // the mixer stops too
   if(window.__flowVoStop)window.__flowVoStop();   // the demo call's voices stop too
   audio.pause();                 // whatever was playing stops
   audio.src=t.src; audio.currentTime=0;
@@ -895,17 +1004,121 @@ function renderLib(){
   L.cats[cat].forEach(([name,file])=>{
     const src=A+file,li=document.createElement("li");li.className="track";
     li.dataset.src=src;li.dataset.name=name;
-    li.innerHTML='<button class="play" type="button"></button><span class="t-name">'+esc(name)+'</span><span class="t-time" data-def="'+(file.endsWith(".wav")?"WAV":"MP3")+'"></span><span class="t-bar"></span>';
+    li.innerHTML='<button class="play" type="button"></button><span class="t-name">'+esc(name)+'</span><span class="t-time" data-def="'+(file.endsWith(".wav")?"WAV":"MP3")+'"></span><button type="button" class="mixadd" aria-pressed="false" aria-label="Add '+esc(name)+' to the audio mixer"><span class="mixadd-tx">+ Mix</span></button><span class="t-bar"></span>';
     li.onclick=()=>playTrack({src,name,cat});   // whole row is the play target
+    const kind=lib==="voice"?"voice":"music";
+    li.querySelector(".mixadd").onclick=e=>{e.stopPropagation();toggleMix(kind,{src,name,cat})};
     ul.appendChild(li);
   });
-  syncUI();
+  syncUI();syncMix();
 }
-document.querySelectorAll("[data-lib]").forEach(b=>b.onclick=()=>{
-  lib=b.dataset.lib;cat=Object.keys(LIB[lib].cats)[0];
-  document.querySelectorAll("[data-lib]").forEach(x=>x.setAttribute("aria-selected",String(x===b)));
+function setLib(name){
+  document.querySelectorAll("[data-lib]").forEach(x=>x.setAttribute("aria-selected",String(x.dataset.lib===name)));
+  const mixOn=name==="mixer";
+  document.getElementById("mixer").hidden=!mixOn;
+  ["cats","tracks","libIntro"].forEach(id=>document.getElementById(id).hidden=mixOn);
+  if(mixOn){document.getElementById("demoTitle").textContent="Audio Mixer!";syncMix();return}
+  if(lib!==name){lib=name;cat=Object.keys(LIB[lib].cats)[0]}
   renderLib();
+}
+document.querySelectorAll("[data-lib]").forEach(b=>b.onclick=()=>setLib(b.dataset.lib));
+
+/* ---------- Audio mixer: one music bed + one voice, played together ---------- */
+const MIX={music:null,voice:null};
+const mA=new Audio(),vA=new Audio();mA.preload=vA.preload="none";mA.loop=true;
+const volOK=(()=>{try{const t=new Audio();t.volume=.5;return t.volume===.5}catch(_){return false}})();
+let mixT=[],mixRaf=0,mixOn=false,mixStart=0,mixTotal=0,popKey="";
+const $=id=>document.getElementById(id);
+const lvl=k=>$(k==="voice"?"mxVoiceLvl":"mxMusicLvl").value/100;
+function toggleMix(kind,t){
+  if(MIX[kind]&&MIX[kind].src===t.src)MIX[kind]=null;else MIX[kind]=t;
+  if(mixOn)stopMix();
+  syncMix();
+  if(MIX.music&&MIX.voice){const key=MIX.music.src+"|"+MIX.voice.src;if(key!==popKey){popKey=key;openPop()}}
+}
+function syncMix(){
+  const n=(MIX.music?1:0)+(MIX.voice?1:0),c=$("mxCount");c.textContent=n;c.hidden=!n;
+  document.querySelectorAll("#tracks .track").forEach(li=>{
+    const k=lib==="voice"?"voice":"music",on=!!(MIX[k]&&MIX[k].src===li.dataset.src),b=li.querySelector(".mixadd");
+    if(!b)return;b.classList.toggle("on",on);b.setAttribute("aria-pressed",String(on));
+    b.querySelector(".mixadd-tx").textContent=on?"✓ In mix":"+ Mix";
+    b.setAttribute("aria-label",(on?"Remove ":"Add ")+li.dataset.name+(on?" from":" to")+" the audio mixer");
+  });
+  ["voice","music"].forEach(k=>{
+    const cap=k==="voice"?"Voice":"Music",t=MIX[k],strip=$("mx"+cap);
+    strip.classList.toggle("set",!!t);
+    $("mx"+cap+"Name").textContent=t?t.name:(k==="voice"?"No voice picked yet":"No music picked yet");
+    $("mx"+cap+"Sub").textContent=t?t.cat:(k==="voice"?"Choose one in Your Voice Of Choice":"Choose one in Music By Mood");
+    strip.querySelector(".mx-pick").textContent=t?(k==="voice"?"Change voice":"Change music"):(k==="voice"?"Choose a voice":"Choose music");
+    strip.querySelector(".mx-x").hidden=!t;
+  });
+  $("mxPlay").disabled=!(MIX.music&&MIX.voice);
+  $("mxPlayIc").innerHTML=mixOn?PAUSE:PLAY;$("mxPlayTx").textContent=mixOn?"Stop the mix":"Hear The Mix";
+  $("mixer").classList.toggle("live",mixOn);
+  $("mxNote").hidden=volOK;
+  if(mixOn){$("deck").classList.add("on");$("deckState").textContent="Now mixing";$("deckTitle").textContent=MIX.voice.name+" + "+MIX.music.name;$("deckSub").textContent="Voice over music";}
+  else if(!current){syncUI()}
+  if(!volOK)document.querySelectorAll(".mx-fader input").forEach(i=>i.disabled=true);
+}
+function ramp(el,to,ms){
+  if(!volOK)return;const from=el.volume,t0=performance.now();
+  (function step(now){const p=Math.min(1,(now-t0)/ms);el.volume=Math.max(0,Math.min(1,from+(to-from)*p));if(p<1&&mixOn)requestAnimationFrame(step)})(t0);
+}
+function musicTarget(){return lvl("music")*($("mxDuck").checked&&!vA.paused?.4:1)}
+function playMix(){
+  if(!(MIX.music&&MIX.voice))return;
+  stopAll();if(window.__flowVoStop)window.__flowVoStop();stopVideo();
+  stopMix(true);
+  mA.src=MIX.music.src;vA.src=MIX.voice.src;mA.currentTime=0;vA.currentTime=0;
+  if(volOK){mA.volume=lvl("music");vA.volume=lvl("voice")}
+  mixOn=true;mixStart=performance.now();mixTotal=0;
+  mA.play().catch(mixFail);
+  mixT.push(setTimeout(()=>{if(!mixOn)return;if(volOK&&$("mxDuck").checked)ramp(mA,lvl("music")*.4,500);vA.play().catch(mixFail)},1600));
+  syncMix();tick();
+}
+vA.addEventListener("loadedmetadata",()=>{mixTotal=1.6+vA.duration+4.2});
+vA.addEventListener("ended",()=>{
+  if(!mixOn)return;ramp(mA,lvl("music"),500);
+  mixT.push(setTimeout(()=>ramp(mA,0,2400),1600));
+  mixT.push(setTimeout(()=>stopMix(),4200));
 });
+function stopMix(silent){
+  mixT.forEach(clearTimeout);mixT=[];cancelAnimationFrame(mixRaf);
+  mA.pause();vA.pause();
+  const was=mixOn;mixOn=false;
+  if(!silent){$("mxBar").style.width="0";$("mxTime").textContent="0:00"}
+  if(was||!silent)syncMix();
+}
+window.__mixStop=()=>{if(mixOn)stopMix()};
+function tick(){
+  if(!mixOn)return;const el=(performance.now()-mixStart)/1000;
+  $("mxBar").style.width=(mixTotal?Math.min(100,el/mixTotal*100):0)+"%";
+  $("mxTime").textContent=fmt(el)+(mixTotal?" / "+fmt(mixTotal):"");
+  mixRaf=requestAnimationFrame(tick);
+}
+function mixFail(){stopMix();const e=$("audioErr");e.textContent="That mix couldn’t play here. Please try again, or call (800) 392-4664 to hear more.";e.hidden=false}
+$("mxPlay").onclick=()=>mixOn?stopMix():playMix();
+$("mxVoiceLvl").oninput=()=>{if(volOK)vA.volume=lvl("voice")};
+$("mxMusicLvl").oninput=()=>{if(volOK&&mixOn)mA.volume=musicTarget()};
+$("mxDuck").onchange=()=>{if(volOK&&mixOn)ramp(mA,musicTarget(),300)};
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>setLib(b.dataset.go));
+document.querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{MIX[b.dataset.rm]=null;if(mixOn)stopMix();syncMix()});
+/* pop-up */
+let popBack=null;
+function openPop(){
+  $("mixPopD").innerHTML="<b>"+esc(MIX.voice.name)+"</b> over <b>"+esc(MIX.music.name)+"</b>. Hear how they sound together.";
+  popBack=document.activeElement;$("mixPop").hidden=false;requestAnimationFrame(()=>$("mixPop").classList.add("in"));$("mixPopGo").focus();
+}
+function closePop(){$("mixPop").classList.remove("in");$("mixPop").hidden=true;if(popBack&&popBack.focus)popBack.focus()}
+function toMixer(){
+  const tabs=document.querySelector(".demo-tabs"),hdr=document.querySelector("header.top");
+  const y=tabs.getBoundingClientRect().top+scrollY-(hdr?hdr.offsetHeight:0)-90;
+  scrollTo({top:Math.max(0,y),behavior:reduce?"auto":"smooth"});
+}
+$("mixPopGo").onclick=()=>{closePop();setLib("mixer");toMixer();playMix()};
+$("mixPopLater").onclick=closePop;
+$("mixPop").addEventListener("click",e=>{if(e.target===$("mixPop"))closePop()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("mixPop").hidden)closePop()});
 renderLib();
 
 
