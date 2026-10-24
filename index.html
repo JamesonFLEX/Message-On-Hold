@@ -583,6 +583,29 @@ body.playing{padding-bottom:84px}
   .track{gap:10px;padding-right:10px}
 }
 @media (prefers-reduced-motion:reduce){.mixer.live .mx-strip.set .mx-eq i{animation:none;height:10px}}
+
+/* mix how-to strip */
+.mix-guide{display:grid;gap:12px;margin:0 0 18px;padding:14px 16px;border-radius:16px;border:2px solid transparent;background:linear-gradient(#0a2f47,#0a2f47) padding-box,linear-gradient(90deg,#33B0E6,#E24018) border-box;box-shadow:0 14px 30px -18px rgba(51,176,230,.6)}
+.mg-head{margin:0;display:flex;align-items:center;gap:12px}
+.mg-head strong{color:#fff;font:700 1.02rem/1.35 var(--body)}
+.mg-ic{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(140deg,#33B0E6,#E24018)}
+.mg-ic svg{width:19px;height:19px;stroke:#fff;stroke-width:2.3;fill:none;stroke-linecap:round}
+.mg-steps{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.mg-steps button{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:#fff;font:600 .88rem var(--body);padding:7px 14px 7px 7px;border-radius:999px;cursor:pointer;transition:background .15s,border-color .15s}
+.mg-steps button:hover:not(:disabled){background:rgba(255,255,255,.12)}
+.mg-steps b{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#33B0E6;color:#03202f;font:800 .8rem var(--body);flex:none}
+.mg-chip{display:inline-block;padding:3px 8px;border-radius:999px;border:1px solid rgba(51,176,230,.6);background:rgba(51,176,230,.16);color:#cdeefb;font:700 .74rem var(--body);line-height:1}
+.mg-steps li.done button{border-color:rgba(61,220,132,.6);background:rgba(61,220,132,.1)}
+.mg-steps li.done b{background:#3ddc84;color:#06301a}
+.mg-steps #mgGo:disabled{cursor:not-allowed;color:#b9cddb;border-style:dashed;background:transparent}
+.mg-steps #mgGo:disabled b{background:rgba(255,255,255,.25);color:#fff}
+.mg-steps li.ready #mgGo{background:#E24018;border-color:#E24018;box-shadow:0 10px 22px -10px #E24018}
+.mg-steps li.ready #mgGo b{background:#fff;color:#b02e10}
+@media (max-width:600px){
+  .mg-head strong{font-size:.95rem}
+  .mg-steps{display:grid;grid-template-columns:1fr}
+  .mg-steps button{width:100%;font-size:clamp(.8rem,3.6vw,.9rem)}
+}
 </style>
 </head>
 <body>
@@ -734,6 +757,14 @@ body.playing{padding-bottom:84px}
       <button type="button" role="tab" aria-selected="true" data-lib="music">Music By Mood</button>
       <button type="button" role="tab" aria-selected="false" data-lib="voice">Your Voice Of Choice</button>
       <button type="button" role="tab" aria-selected="false" data-lib="mixer" class="mix-tab">Audio Mixer<b class="mx-count" id="mxCount" hidden>0</b></button>
+    </div>
+    <div class="mix-guide" id="mixGuide">
+      <p class="mg-head"><span class="mg-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg></span><strong>Add music and a voice to the mix to hear them together.</strong></p>
+      <ol class="mg-steps">
+        <li data-step="music"><button type="button" data-go="music"><b>1</b>Tap <span class="mg-chip">+ Mix</span> on a music track</button></li>
+        <li data-step="voice"><button type="button" data-go="voice"><b>2</b>Tap <span class="mg-chip">+ Mix</span> on a voice</button></li>
+        <li data-step="go"><button type="button" id="mgGo" disabled><b>3</b>Hear The Mix</button></li>
+      </ol>
     </div>
     <p class="lib-intro" id="libIntro"></p>
     <div class="cats" role="tablist" id="cats" aria-label="Categories"></div>
@@ -1056,6 +1087,8 @@ function syncMix(){
   $("mxPlayIc").innerHTML=mixOn?PAUSE:PLAY;$("mxPlayTx").textContent=mixOn?"Stop the mix":"Hear The Mix";
   $("mixer").classList.toggle("live",mixOn);
   $("mxNote").hidden=volOK;
+  [["music",MIX.music],["voice",MIX.voice]].forEach(([k,t])=>{const li=document.querySelector('.mg-steps [data-step="'+k+'"]');li.classList.toggle("done",!!t);li.querySelector("b").textContent=t?"✓":(k==="music"?"1":"2")});
+  const ready=!!(MIX.music&&MIX.voice);$("mgGo").disabled=!ready;$("mgGo").parentNode.classList.toggle("ready",ready);
   if(mixOn){$("deck").classList.add("on");$("deckState").textContent="Now mixing";$("deckTitle").textContent=MIX.voice.name+" + "+MIX.music.name;$("deckSub").textContent="Voice over music";}
   else if(!current){syncUI()}
   if(!volOK)document.querySelectorAll(".mx-fader input").forEach(i=>i.disabled=true);
@@ -1116,6 +1149,7 @@ function toMixer(){
   scrollTo({top:Math.max(0,y),behavior:reduce?"auto":"smooth"});
 }
 $("mixPopGo").onclick=()=>{closePop();setLib("mixer");toMixer();playMix()};
+$("mgGo").onclick=()=>{setLib("mixer");playMix()};
 $("mixPopLater").onclick=closePop;
 $("mixPop").addEventListener("click",e=>{if(e.target===$("mixPop"))closePop()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("mixPop").hidden)closePop()});
