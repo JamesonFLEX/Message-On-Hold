@@ -626,7 +626,7 @@ body.playing{padding-bottom:84px}
     </nav>
     <div class="cta">
       <a class="phone" href="tel:+18003924664">(800) 392-4664</a>
-      <a class="btn btn-primary hbtn" href="https://messageonholdphones.com/contact-us/"><span class="lg">Try a&nbsp;</span>Free 60-Day Trial</a>
+      <a class="btn btn-primary hbtn" href="contact.html"><span class="lg">Try a&nbsp;</span>Free 60-Day Trial</a>
     </div>
   </div>
 </header>
@@ -803,7 +803,7 @@ body.playing{padding-bottom:84px}
         <div class="mix-btns"><button type="button" class="btn btn-primary" id="mixPopGo">Hear The Mix</button><button type="button" class="btn mix-later" id="mixPopLater">Keep browsing</button></div>
       </div>
     </div>
-    <div style="margin-top:26px"><a class="btn btn-primary" href="https://messageonholdphones.com/contact-us/">Ready to get started? Contact us</a></div>
+    <div style="margin-top:26px"><a class="btn btn-primary" href="contact.html">Ready to get started? Contact us</a></div>
   </div>
 </section>
 
@@ -830,7 +830,7 @@ body.playing{padding-bottom:84px}
     <div class="stack">
       <p class="muted">Two phone systems starting as low as</p>
       <div class="price">$99<small> per month</small></div>
-      <div><a class="btn btn-primary" href="https://messageonholdphones.com/contact-us/">Get a Free Trial</a></div>
+      <div><a class="btn btn-primary" href="contact.html">Get a Free Trial</a></div>
     </div>
   </div>
 </section>
@@ -840,7 +840,7 @@ body.playing{padding-bottom:84px}
     <div class="stack">
       <h2>Ready to Stop Losing Orders to Missed Calls?</h2>
       <p class="lede">Get a Free, No Obligation, 60 Day Trial and see how Message on Hold Service fits into your restaurant.</p>
-      <div class="btns"><a class="btn btn-primary" href="https://messageonholdphones.com/contact-us/">Get a Free Trial</a><a class="btn btn-ghost" href="tel:+18003924664">Call (800) 392-4664</a></div>
+      <div class="btns"><a class="btn btn-primary" href="contact.html">Get a Free Trial</a><a class="btn btn-ghost" href="tel:+18003924664">Call (800) 392-4664</a></div>
     </div>
     <div class="cta-pic"><div data-tilt data-depth="10"><img src="https://messageonholdphones.com/wp-content/uploads/2025/12/Group-1707493373.webp" alt="" loading="lazy" onerror="this.remove()"></div></div>
   </div>
@@ -858,7 +858,7 @@ body.playing{padding-bottom:84px}
         <p style="margin-top:16px;display:flex;gap:16px"><a href="https://www.instagram.com/message_on_hold">Instagram</a><a href="https://www.linkedin.com/company/messageonhold">LinkedIn</a></p>
       </div>
       <div><h4>Quick Links</h4><ul>
-        <li><a href="#top">Home</a></li><li><a href="https://messageonholdphones.com/about-us/">About Us</a></li><li><a href="https://messageonholdphones.com/blogs/">Blogs</a></li><li><a href="https://messageonholdphones.com/contact-us/">Contact Us</a></li></ul></div>
+        <li><a href="#top">Home</a></li><li><a href="https://messageonholdphones.com/about-us/">About Us</a></li><li><a href="https://messageonholdphones.com/blogs/">Blogs</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
       <div><h4>Our Service</h4><ul>
         <li><a href="https://messageonholdphones.com/our-service/voip-phone-systems-for-restaurants/">VOIP Phone Systems</a></li>
         <li><a href="https://messageonholdphones.com/our-service/wireless-failover/">Wireless Failover</a></li>
@@ -1087,6 +1087,7 @@ function syncMix(){
   $("mxPlayIc").innerHTML=mixOn?PAUSE:PLAY;$("mxPlayTx").textContent=mixOn?"Stop the mix":"Hear The Mix";
   $("mixer").classList.toggle("live",mixOn);
   $("mxNote").hidden=volOK;
+  try{sessionStorage.setItem("moh_mix",JSON.stringify(MIX.music&&MIX.voice?{voice:MIX.voice.name+" ("+MIX.voice.cat+")",music:MIX.music.name+" ("+MIX.music.cat+")"}:null))}catch(_){}
   [["music",MIX.music],["voice",MIX.voice]].forEach(([k,t])=>{const li=document.querySelector('.mg-steps [data-step="'+k+'"]');li.classList.toggle("done",!!t);li.querySelector("b").textContent=t?"✓":(k==="music"?"1":"2")});
   const ready=!!(MIX.music&&MIX.voice);$("mgGo").disabled=!ready;$("mgGo").parentNode.classList.toggle("ready",ready);
   if(mixOn){$("deck").classList.add("on");$("deckState").textContent="Now mixing";$("deckTitle").textContent=MIX.voice.name+" + "+MIX.music.name;$("deckSub").textContent="Voice over music";}
@@ -1203,7 +1204,7 @@ const BF=[
 ];
 function showBF(i){
   document.querySelectorAll("#bfTabs .tab").forEach((b,j)=>b.setAttribute("aria-selected",String(i===j)));
-  document.getElementById("bfPanel").innerHTML='<h3>'+esc(BF[i][0])+'</h3><p>'+esc(BF[i][1])+'</p><div class="btns"><a class="btn btn-primary" href="#demos">Hear a Demo</a><a class="btn btn-ghost" href="https://messageonholdphones.com/contact-us/">Get Free Trial</a></div>';
+  document.getElementById("bfPanel").innerHTML='<h3>'+esc(BF[i][0])+'</h3><p>'+esc(BF[i][1])+'</p><div class="btns"><a class="btn btn-primary" href="#demos">Hear a Demo</a><a class="btn btn-ghost" href="contact.html">Get Free Trial</a></div>';
   const im=document.getElementById("bfImg");im.style.opacity=0;im.src=U+BF[i][2];im.onload=()=>im.style.opacity=1;
 }
 BF.forEach(([t],i)=>{const b=document.createElement("button");b.className="tab";b.type="button";b.setAttribute("role","tab");b.textContent=t;b.onclick=()=>showBF(i);document.getElementById("bfTabs").appendChild(b)});

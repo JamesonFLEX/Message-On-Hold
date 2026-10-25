@@ -8,7 +8,8 @@ One-page site for **Message On Hold** (messageonholdphones.com): on-hold messagi
 
 | File | Purpose |
 |---|---|
-| `index.html` | The site (demo player, 3D AI-ordering flow with voices, swipeable reviews) |
+| `index.html` | The site (demo player, audio mixer, 3D AI-ordering flow with voices, swipeable reviews) |
+| `contact.html` | Free 60-day trial quiz funnel — every trial/contact button on the site leads here |
 | `og-image.jpg` | 1200×630 link-preview image (Messenger, iMessage, WhatsApp, LinkedIn, Slack, X, SMS) |
 | `favicon.ico`, `favicon.svg`, `favicon-32.png` | Browser tab icons |
 | `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `site.webmanifest` | Home-screen / app icons |
@@ -33,3 +34,12 @@ All preview tags point to `https://jamesonflex.github.io/Message-On-Hold/`. The 
 Other checkers: LinkedIn https://www.linkedin.com/post-inspector/
 
 iMessage caches the first preview it sees, so send the link only after the new files are live.
+
+## Trial requests (contact.html)
+
+Every "Free 60-Day Trial" / "Contact" button opens `contact.html`, a 5-step quiz (business type → locations → services → busy-phone problem → contact details).
+
+- Requests are emailed to **sales@messageonholdservice.com** through FormSubmit (formsubmit.co), a free form-to-email service — no server needed.
+- **One-time activation:** the very first request triggers a FormSubmit email to that inbox titled "Action Required: Activate FormSubmit". Someone at Message On Hold must click **Activate Form** once. Until then, visitors get a one-tap "send by email" fallback with everything pre-filled, so no lead is lost.
+- To send requests to a different inbox, change `LEAD_TO` near the top of the script in `contact.html`.
+- If a visitor built a mix in the Audio Mixer, it's attached to their request automatically.
