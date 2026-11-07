@@ -43,7 +43,7 @@
   --display:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;
   --body:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
-  --r:14px; --max:1200px;
+  --r:14px; --max:2000px;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -60,7 +60,7 @@ h1{font-size:clamp(2.3rem,5.2vw,4rem);font-weight:800}
 h2{font-size:clamp(1.8rem,3.6vw,2.7rem);font-weight:800}
 h3{font-size:1.22rem;font-weight:600}
 p{margin:0}
-.wrap{max-width:var(--max);margin:0 auto;padding-inline:clamp(16px,4vw,32px)}
+.wrap{max-width:var(--max);margin:0 auto;padding-inline:clamp(16px,3.5vw,64px)}
 .eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:500}
 .lede{color:var(--muted);font-size:1.12rem;max-width:62ch}
 section{padding-block:clamp(56px,8vw,104px)}
@@ -84,10 +84,10 @@ section{padding-block:clamp(56px,8vw,104px)}
 
 /* header — simplified */
 header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:rgba(5,45,68,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.top .hdr{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);grid-template-areas:"logo nav cta";align-items:center;column-gap:clamp(12px,2vw,28px);min-height:72px}
+.top .hdr{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);grid-template-areas:"logo nav cta";align-items:center;column-gap:clamp(12px,2vw,28px);min-height:104px}
 .top a,.top .btn{white-space:nowrap}
 .logo{grid-area:logo;justify-self:start;display:flex;align-items:center;min-width:0;text-decoration:none;font:800 1.15rem var(--display);color:#fff}
-.logo img{height:42px;width:auto;max-width:100%;display:block}
+.logo img{height:84px;width:auto;max-width:100%;object-fit:contain;object-position:left center;display:block}
 .logo .txt{display:none}
 .logo.fallback img{display:none}.logo.fallback .txt{display:inline}
 nav.main{grid-area:nav;display:flex;justify-content:center;align-items:center;gap:clamp(2px,.6vw,8px)}
@@ -103,10 +103,10 @@ nav.main a:hover,nav.main a:focus-visible{background:rgba(51,176,230,.18);color:
  .top .hdr{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"logo cta" "nav nav";row-gap:0;min-height:0;padding-top:10px}
  nav.main{justify-content:space-between;gap:0;border-top:1px solid var(--line);margin-top:10px;padding:4px 0}
  nav.main a{font-size:clamp(.8rem,3.4vw,.95rem);padding:10px clamp(4px,1.6vw,12px)}
- .logo img{height:36px}
+ .logo img{height:64px}
 }
 @media (max-width:1023px) and (min-width:600px){nav.main{justify-content:center;gap:clamp(8px,3vw,32px)}}
-@media (max-width:519px){.top .hbtn .lg{display:none}.top .hbtn{padding:10px 14px;font-size:.85rem}.logo img{height:32px;max-width:46vw}.logo{font-size:1rem}}
+@media (max-width:519px){.top .hbtn .lg{display:none}.top .hbtn{padding:10px 14px;font-size:.85rem}.logo img{height:52px;max-width:50vw}.logo{font-size:1rem}}
 
 /* 3D tilt helper */
 [data-tilt]{transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1);will-change:transform}
@@ -284,14 +284,15 @@ footer{background:var(--band);color:var(--band-ink);padding-block:64px 36px}
 .foot a{text-decoration:none;color:var(--band-ink)}
 .foot a:hover{color:var(--signal)}
 .foot p{color:var(--band-muted)}
-.foot .logo img{height:44px}
+.foot>div{min-width:0}
+.foot .logo img{height:64px;max-width:100%;object-fit:contain;object-position:left center}
 .foot .logo.fallback .txt{color:var(--band-ink)}
 .sub{display:flex;gap:8px;margin-top:16px}
 .sub input{flex:1;min-width:0;padding:12px 14px;border-radius:999px;border:1px solid var(--band-line);background:var(--band-line);color:var(--band-ink);font:500 .95rem var(--body)}
 .legal{border-top:1px solid var(--band-line);margin-top:44px;padding-top:22px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:var(--band-muted);font-size:.9rem}
 .legal a{color:var(--band-muted)}
 @media (max-width:900px){.foot{grid-template-columns:1fr 1fr}}
-@media (max-width:560px){.foot{grid-template-columns:1fr}}
+@media (max-width:560px){.foot{grid-template-columns:minmax(0,1fr)}}
 
 /* now playing bar */
 .nowbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#031a2b;color:var(--band-ink);border-top:1px solid var(--band-line);padding:10px clamp(16px,4vw,32px) calc(10px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;transform:translateY(110%);transition:transform .25s}
@@ -614,7 +615,7 @@ body.playing{padding-bottom:84px}
 
 <header class="top">
   <div class="wrap hdr">
-    <a class="logo" href="https://messageonholdphones.com/" aria-label="Message On Hold home">
+    <a class="logo" href="./" aria-label="Message On Hold home">
       <img id="logoImg" src="https://messageonholdphones.com/wp-content/uploads/2025/12/message-on-hold_Final-Files-1.svg" alt="Message On Hold" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='assets/logo.svg'}else{this.parentNode.classList.add('fallback')}"><span class="txt">Message On Hold</span>
     </a>
     <nav class="main" aria-label="Primary">
@@ -622,7 +623,7 @@ body.playing{padding-bottom:84px}
       <a href="#demos">Demos</a>
       <a href="#about">About Us</a>
       <a href="#reviews">Reviews</a>
-      <a href="https://messageonholdphones.com/blogs/">Blogs</a>
+      <a href="blog.html">Blogs</a>
     </nav>
     <div class="cta">
       <a class="phone" href="tel:+18003924664">(800) 392-4664</a>
@@ -677,7 +678,7 @@ body.playing{padding-bottom:84px}
       <h2>Your Busiest Customers Are Already on the Phone</h2>
       <p class="pull">Turn “please hold” into a sales channel.</p>
       <p class="lede">In pizza and QSR, every call matters. Silence on hold leads to hang-ups and lost orders. Your on-hold message promotes specials and online ordering while keeping callers on the line.</p>
-      <div class="btns"><a class="btn btn-primary" href="#demos">Hear a Demo</a><a class="btn btn-ghost" href="https://messageonholdphones.com/our-service/on-hold-messaging/">Learn more</a></div>
+      <div class="btns"><a class="btn btn-primary" href="#demos">Hear a Demo</a><a class="btn btn-ghost" href="on-hold-messaging.html">Learn more</a></div>
     </div>
   </div>
 </section>
@@ -689,7 +690,7 @@ body.playing{padding-bottom:84px}
       <h2>Our name is what we do—our technology is what sets us apart.</h2>
       <p>With over 30 years of experience, Message on Hold Service turns every call into an opportunity for your business with our AI phone ordering system. Headquartered in Houston, Texas, we offer a full-service communications and ordering technology partner. We extend our services to thousands of pizza and QSR brands and virtually every industry.</p>
       <p>Our use of 100% digital equipment and cloud-based systems ensures optimum performance. Our dedication to maintaining quality, speed, and consistency, along with our innovative communications technology, helps your business grow. As one of the best online ordering platforms for restaurants, we focus on never missing your call and help you increase revenue by providing top-notch customer service.</p>
-      <div><a class="btn btn-ghost" href="https://messageonholdphones.com/about-us/">Learn More</a></div>
+      <div><a class="btn btn-ghost" href="about.html">Learn More</a></div>
     </div>
     <div>
       <div class="about-pic"><img src="https://messageonholdphones.com/wp-content/uploads/2025/12/Mask-group-22.webp" alt="" loading="lazy" onerror="this.remove()"></div>
@@ -737,7 +738,7 @@ body.playing{padding-bottom:84px}
       <div class="step" data-tilt data-depth="8"><span class="n">02</span><h3>Custom Setup</h3><p>Custom-configured solutions engineered specifically for your concept—never generic, never off the shelf.</p></div>
       <div class="step" data-tilt data-depth="8"><span class="n">03</span><h3>Launch &amp; Optimize</h3><p>Launch in weeks, not months—and start seeing returns immediately.</p></div>
     </div>
-    <div style="margin-top:32px"><a class="btn btn-primary" href="https://messageonholdphones.com/about-us/#get-free-trial">Schedule a Free 15-Minute Call</a></div>
+    <div style="margin-top:32px"><a class="btn btn-primary" href="contact.html">Schedule a Free 15-Minute Call</a></div>
   </div>
 </section>
 
@@ -851,26 +852,26 @@ body.playing{padding-bottom:84px}
   <div class="wrap">
     <div class="foot">
       <div>
-        <a class="logo" href="https://messageonholdphones.com/"><img src="https://messageonholdphones.com/wp-content/uploads/2025/12/message-on-hold_Final-Files-1.svg" alt="Message On Hold" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='assets/logo.svg'}else{this.parentNode.classList.add('fallback')}"><span class="txt">Message On Hold</span></a>
+        <a class="logo" href="./"><img src="https://messageonholdphones.com/wp-content/uploads/2025/12/message-on-hold_Final-Files-1.svg" alt="Message On Hold" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='assets/logo.svg'}else{this.parentNode.classList.add('fallback')}"><span class="txt">Message On Hold</span></a>
         <p style="margin-top:14px">Turn every hold into a marketing opportunity with engaging, professional on-hold messages for your business.</p>
         <form class="sub" id="subForm"><label for="subEmail" class="sr">Email</label><input id="subEmail" type="email" placeholder="Email" required><button class="btn btn-primary" type="submit">Submit</button></form>
         <p id="subMsg" hidden style="margin-top:8px"></p>
         <p style="margin-top:16px;display:flex;gap:16px"><a href="https://www.instagram.com/message_on_hold">Instagram</a><a href="https://www.linkedin.com/company/messageonhold">LinkedIn</a></p>
       </div>
       <div><h4>Quick Links</h4><ul>
-        <li><a href="#top">Home</a></li><li><a href="https://messageonholdphones.com/about-us/">About Us</a></li><li><a href="https://messageonholdphones.com/blogs/">Blogs</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+        <li><a href="#top">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="blog.html">Blogs</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
       <div><h4>Our Service</h4><ul>
-        <li><a href="https://messageonholdphones.com/our-service/voip-phone-systems-for-restaurants/">VOIP Phone Systems</a></li>
-        <li><a href="https://messageonholdphones.com/our-service/wireless-failover/">Wireless Failover</a></li>
-        <li><a href="https://messageonholdphones.com/our-service/ai-ordering/">AI Ordering</a></li>
-        <li><a href="https://messageonholdphones.com/our-service/delivery-logistics/">Delivery Logistics</a></li>
-        <li><a href="https://messageonholdphones.com/our-service/online-ordering-apps/">Online Ordering &amp; Apps</a></li>
-        <li><a href="https://messageonholdphones.com/our-service/customer-engagement-marketing-automation/">Customer Engagement &amp; Marketing Automation</a></li>
-        <li><a href="https://messageonholdphones.com/our-service/on-hold-messaging/">On Hold Messaging</a></li></ul></div>
+        <li><a href="voip-phone-systems.html">VOIP Phone Systems</a></li>
+        <li><a href="wireless-failover.html">Wireless Failover</a></li>
+        <li><a href="ai-ordering.html">AI Ordering</a></li>
+        <li><a href="delivery-logistics.html">Delivery Logistics</a></li>
+        <li><a href="online-ordering-apps.html">Online Ordering &amp; Apps</a></li>
+        <li><a href="marketing-automation.html">Customer Engagement &amp; Marketing Automation</a></li>
+        <li><a href="on-hold-messaging.html">On Hold Messaging</a></li></ul></div>
       <div><h4>Solutions</h4><ul><li><a href="#services">Pizza Restaurants</a></li><li><a href="#services">Multi location restaurants</a></li><li><a href="#services">Quick- Service Restaurants</a></li></ul>
         <h4 style="margin-top:22px">Call</h4><p style="font-family:var(--mono);color:var(--band-ink);user-select:all">(800) 392-4664</p></div>
     </div>
-    <div class="legal"><span>© 2026 Message On Hold. All rights reserved.</span><span style="display:flex;gap:18px"><a href="https://messageonholdphones.com/terms-of-service/">Terms of Service</a><a href="https://messageonholdphones.com/privacy-policy/">Privacy Policy</a></span></div>
+    <div class="legal"><span>© 2026 Message On Hold. All rights reserved.</span><span style="display:flex;gap:18px"><a href="https://messageonholdphones.com/terms-of-service/" target="_blank" rel="noopener">Terms of Service</a><a href="https://messageonholdphones.com/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a></span></div>
   </div>
 </footer>
 
@@ -1188,7 +1189,7 @@ for(let g=0;g<2;g++){
  ["Customer Engagement & Marketing Automation","Loyalty, reviews, and campaigns that keep your customers coming back.","customer-engagement-marketing-automation","2025/12/Group-1707493867.svg"],
  ["Delivery Logistics","Smart routing, driver tracking, and delivery automation in one platform.","delivery-logistics","2025/12/Group-1707493869.webp"]
 ].forEach(([t,d,slug,ic])=>{
-  const c=document.createElement("a");c.className="svc";c.href="https://messageonholdphones.com/our-service/"+slug+"/";
+  const c=document.createElement("a");c.className="svc";c.href=({"ai-ordering":"ai-ordering.html","voip-phone-systems-for-restaurants":"voip-phone-systems.html","wireless-failover":"wireless-failover.html","online-ordering-apps":"online-ordering-apps.html","customer-engagement-marketing-automation":"marketing-automation.html","delivery-logistics":"delivery-logistics.html","on-hold-messaging":"on-hold-messaging.html"})[slug]||"services.html";
   c.dataset.tilt="";c.dataset.depth="8";
   c.innerHTML='<img src="'+U+ic+'" alt="" loading="lazy" onerror="this.remove()"><h3>'+esc(t)+'</h3><p>'+esc(d)+'</p><span class="more">Learn more →</span>';
   document.getElementById("services-grid").appendChild(c);
@@ -1593,6 +1594,7 @@ function openFlow(){audio.pause();stopVideo();prime();savedY=window.scrollY||0;f
   try{document.getElementById("closeFlow").focus({preventScroll:true});}catch(e){}}
 function closeFlow(){stop();fm.hidden=true;document.body.style.overflow="";if(document.body.classList.contains("flow-page")){document.body.classList.remove("flow-page");window.scrollTo(0,savedY);}}
 document.getElementById("openFlow").onclick=openFlow;
+if(location.hash==="#ai-flow")setTimeout(openFlow,450);
 document.getElementById("closeFlow").onclick=closeFlow;
 fm.addEventListener("click",e=>{if(e.target===fm)closeFlow()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!fm.hidden)closeFlow()});

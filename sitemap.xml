@@ -2,4 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://jamesonflex.github.io/Message-On-Hold/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
   <url><loc>https://jamesonflex.github.io/Message-On-Hold/contact.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://jamesonflex.github.io/Message-On-Hold/about.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://jamesonflex.github.io/Message-On-Hold/ai-ordering.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://jamesonflex.github.io/Message-On-Hold/blog.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://jamesonflex.github.io/Message-On-Hold/delivery-logistics.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://jamesonflex.github.io/Message-On-Hold/marketing-automation.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://jamesonflex.github.io/Message-On-Hold/on-hold-messaging.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://jamesonflex.github.io/Message-On-Hold/online-ordering-apps.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://jamesonflex.github.io/Message-On-Hold/services.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://jamesonflex.github.io/Message-On-Hold/voip-phone-systems.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://jamesonflex.github.io/Message-On-Hold/wireless-failover.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

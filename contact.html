@@ -49,7 +49,7 @@ a{color:inherit}
 img{max-width:100%;display:block}
 h1,h2,h3{margin:0;font-family:var(--display);letter-spacing:-.01em;line-height:1.1;text-wrap:balance}
 p{margin:0}
-.wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(16px,4vw,32px)}
+.wrap{max-width:2000px;margin:0 auto;padding-inline:clamp(16px,3.5vw,64px)}
 .eyebrow{font:500 .75rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:600 1rem var(--display);padding:13px 22px;border-radius:999px;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s;white-space:nowrap}
 .btn:hover{transform:translateY(-2px)}
@@ -59,15 +59,15 @@ p{margin:0}
 
 /* header */
 header.top{position:sticky;top:0;z-index:20;background:rgba(5,45,68,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.hdr{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:68px}
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:104px}
 .logo{display:flex;align-items:center;min-width:0;text-decoration:none}
-.logo img{height:40px;width:auto;max-width:52vw}
+.logo img{height:84px;width:auto;max-width:56vw;object-fit:contain;object-position:left center}
 .logo .txt{display:none;font:800 1.1rem var(--display);color:#fff}
 .logo.fallback img{display:none}.logo.fallback .txt{display:inline}
 .hdr-r{display:flex;align-items:center;gap:14px}
 .hdr .tel{font:600 .9rem var(--mono);color:#fff;text-decoration:none;white-space:nowrap}
 .hdr .back{padding:9px 16px;font-size:.92rem}
-@media (max-width:700px){.hdr .tel{display:none}.logo img{height:32px}}
+@media (max-width:700px){.hdr{min-height:78px}.hdr .tel{display:none}.logo img{height:52px}}
 
 /* intro */
 .intro{padding:clamp(28px,5vw,56px) 0 clamp(18px,3vw,28px);display:grid;gap:12px}
@@ -76,7 +76,7 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(5,45,68,.92);backdro
 .intro .lede{color:var(--muted);font-size:clamp(1rem,1.6vw,1.15rem);max-width:60ch}
 
 /* layout */
-.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(16px,2.6vw,28px);align-items:start;padding-bottom:clamp(40px,6vw,72px)}
+.layout{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:clamp(16px,2.6vw,28px);align-items:start;padding-bottom:clamp(40px,6vw,72px)}
 @media (max-width:900px){.layout{grid-template-columns:1fr}}
 
 /* quiz card */

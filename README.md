@@ -9,6 +9,9 @@ One-page site for **Message On Hold** (messageonholdphones.com): on-hold messagi
 | File | Purpose |
 |---|---|
 | `index.html` | The site (demo player, audio mixer, 3D AI-ordering flow with voices, swipeable reviews) |
+| `services.html`, `about.html`, `blog.html` | Services overview, About Us and the blog list |
+| `on-hold-messaging.html`, `ai-ordering.html`, `voip-phone-systems.html`, `wireless-failover.html`, `delivery-logistics.html`, `online-ordering-apps.html`, `marketing-automation.html` | One page per service (all "Learn more" links land here) |
+| `assets/sub.css` | Shared styles for the sub pages |
 | `contact.html` | Free 60-day trial quiz funnel — every trial/contact button on the site leads here |
 | `og-image.jpg` | 1200×630 link-preview image (Messenger, iMessage, WhatsApp, LinkedIn, Slack, X, SMS) |
 | `favicon.ico`, `favicon.svg`, `favicon-32.png` | Browser tab icons |
@@ -43,3 +46,8 @@ Every "Free 60-Day Trial" / "Contact" button opens `contact.html`, a 5-step quiz
 - **One-time activation:** the very first request triggers a FormSubmit email to that inbox titled "Action Required: Activate FormSubmit". Someone at Message On Hold must click **Activate Form** once. Until then, visitors get a one-tap "send by email" fallback with everything pre-filled, so no lead is lost.
 - To send requests to a different inbox, change `LEAD_TO` near the top of the script in `contact.html`.
 - If a visitor built a mix in the Audio Mixer, it's attached to their request automatically.
+
+## Pages that still open messageonholdphones.com (on purpose)
+
+- **Privacy Policy** and **Terms of Service** link to the official versions so the legal wording stays exactly as written.
+- Individual **blog articles** open the original post in a new tab (the blog list itself lives in this site).
