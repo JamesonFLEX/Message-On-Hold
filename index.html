@@ -121,8 +121,15 @@ nav.main a:hover,nav.main a:focus-visible{background:rgba(51,176,230,.18);color:
 .checks li::before{content:"";width:18px;height:18px;border-radius:50%;background:var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 9.2l2.6 2.6L13 6.4' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E") center/18px no-repeat;flex:none}
 .stage{perspective:1400px;min-width:0}
 .stage-inner{position:relative;transform:rotateY(-12deg) rotateX(6deg)}
-.photo{border-radius:22px;overflow:hidden;background:linear-gradient(135deg,var(--blue),var(--accent));aspect-ratio:5/4;box-shadow:0 40px 80px -30px var(--shadow);min-width:0}
-.photo img{width:100%;height:100%;object-fit:cover}
+/* hero phones: free-floating 3D art on a transparent background (no frame) */
+.photo{position:relative;min-width:0;perspective:1400px;display:grid;place-items:center}
+.photo::before{content:"";position:absolute;inset:8% 6% 10%;border-radius:50%;background:radial-gradient(closest-side,rgba(51,176,230,.32),rgba(226,64,24,.14) 60%,transparent 75%);filter:blur(30px);z-index:0;pointer-events:none}
+.photo .art{position:relative;z-index:1;width:100%;transform-style:preserve-3d;transform:rotateY(var(--ry,-10deg)) rotateX(var(--rx,5deg));transition:transform .5s cubic-bezier(.2,.8,.2,1);will-change:transform}
+.photo img{width:100%;height:auto;max-height:640px;object-fit:contain;background:transparent;filter:drop-shadow(0 34px 34px rgba(0,0,0,.55)) drop-shadow(0 10px 12px rgba(0,0,0,.3));animation:heroFloat 6s ease-in-out infinite}
+.photo .floor{position:absolute;left:18%;right:18%;bottom:2%;height:22px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent);filter:blur(6px);z-index:0;animation:heroShadow 6s ease-in-out infinite}
+@keyframes heroFloat{0%,100%{transform:translateY(0) translateZ(30px)}50%{transform:translateY(-14px) translateZ(30px)}}
+@keyframes heroShadow{0%,100%{transform:scaleX(1);opacity:.9}50%{transform:scaleX(.86);opacity:.6}}
+@media (prefers-reduced-motion:reduce){.photo img,.photo .floor{animation:none}.photo .art{transition:none}}
 .float{position:absolute;transform-style:preserve-3d}
 .console{left:-8%;bottom:-12%;width:min(360px,86%);background:var(--band);color:var(--band-ink);border-radius:18px;padding:18px;display:grid;gap:12px;box-shadow:0 30px 60px -18px rgba(5,10,20,.6);transform:translateZ(90px)}
 .chip{background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 15px;font:600 .85rem var(--body);box-shadow:0 18px 30px -14px var(--shadow);display:flex;gap:8px;align-items:center;white-space:nowrap}
@@ -607,6 +614,100 @@ body.playing{padding-bottom:84px}
   .mg-steps{display:grid;grid-template-columns:1fr}
   .mg-steps button{width:100%;font-size:clamp(.8rem,3.6vw,.9rem)}
 }
+
+/* Why Choose Us: Message On Hold's own icons (blue on white circle) */
+.why-ic{display:inline-grid;place-items:center;width:58px;height:58px;padding:5px;border-radius:50px;background:rgba(239,247,255,.565);box-shadow:0 14px 28px -14px rgba(0,0,0,.6);transform:translateZ(40px)}
+.why-ic svg{width:48px;height:48px;display:block}
+
+/* ===== Built For High-Volume Restaurants & QSRs (expanding photo panels, like their site) ===== */
+.sx-head{display:grid;justify-items:center;text-align:center;gap:12px;max-width:980px;margin:0 auto clamp(26px,4vw,44px)}
+.acc{color:var(--accent)}
+.dashes{display:inline-flex;gap:6px;align-items:center}
+.dashes i{display:block;height:4px;border-radius:4px;background:var(--accent);width:44px}
+.dashes i+i{width:14px;background:rgba(255,255,255,.35)}
+.bfx{padding-bottom:0}
+.bfx-row{display:flex;height:clamp(420px,46vw,620px);width:100%;overflow:hidden}
+.bfp{position:relative;flex:1 1 0;min-width:0;overflow:hidden;cursor:pointer;outline:none;transition:flex-grow .6s cubic-bezier(.2,.8,.2,1);border-right:1px solid rgba(255,255,255,.12)}
+.bfp:last-child{border-right:0}
+.bfp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform .8s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.bfp::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(2,18,31,.55) 62%,rgba(2,14,25,.95) 100%);transition:background .5s}
+.bfp.on{flex-grow:2.6}
+.bfp.on img{transform:scale(1)}
+.bfp.on::after{background:linear-gradient(180deg,rgba(0,0,0,.05) 20%,rgba(2,18,31,.72) 52%,rgba(2,14,25,.97) 100%)}
+.bfp:focus-visible{box-shadow:inset 0 0 0 3px var(--blue)}
+.bfp-in{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:clamp(16px,2vw,28px);display:grid;gap:12px}
+.bfp h3{color:#fff;font:700 clamp(1rem,1.3vw,1.3rem)/1.2 var(--display);text-shadow:0 2px 10px rgba(0,0,0,.6);max-width:22ch}
+.bfp-more{display:grid;gap:14px;max-height:0;opacity:0;transform:translateY(16px);overflow:hidden;transition:max-height .6s,opacity .4s .1s,transform .5s .1s}
+.bfp.on .bfp-more{max-height:420px;opacity:1;transform:none}
+.bfp-more p{color:#e3edf5;font-size:clamp(.92rem,1vw,1.02rem);max-width:56ch;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.bfp-more .btn{padding:11px 18px;font-size:.92rem}
+@media (max-width:820px){
+  .bfx-row{flex-direction:column;height:auto}
+  .bfp{flex:none;height:96px;border-right:0;border-bottom:1px solid rgba(255,255,255,.12);transition:height .55s cubic-bezier(.2,.8,.2,1)}
+  .bfp.on{height:clamp(400px,110vw,480px)}
+  .bfp h3{max-width:none}
+}
+/* ===== From Missed Calls To Fully Managed Orders In 3 Steps (stepper, like their site) ===== */
+.stx-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:center}
+.stx-pics{display:grid;grid-template-columns:1fr 1fr;gap:14px;perspective:1200px}
+.stx-pic{border-radius:22px;overflow:hidden;aspect-ratio:9/16;max-height:620px;background:var(--surface);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.stx-pic:first-child{transform:rotateY(8deg)}.stx-pic:last-child{transform:rotateY(-8deg) translateY(24px)}
+.stx-pic img{width:100%;height:100%;object-fit:cover}
+.stx-copy{display:grid;gap:16px;justify-items:start}
+.stx-copy h2{text-align:left}
+.stx-list{list-style:none;margin:6px 0 10px;padding:0;display:grid;gap:14px;width:100%}
+.st{position:relative;display:grid;grid-template-columns:52px 1fr;gap:16px;align-items:start}
+.st:not(:last-child)::before{content:"";position:absolute;left:25px;top:56px;bottom:-14px;border-left:2px dotted rgba(51,176,230,.55)}
+.st-n{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:700 1.05rem var(--display);color:var(--accent);background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.95),#e9f3fb);box-shadow:inset 0 -3px 6px rgba(0,0,0,.12),0 10px 18px -8px rgba(0,0,0,.6)}
+.st-card{position:relative;overflow:hidden;width:100%;text-align:left;display:grid;gap:6px;padding:18px 22px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;font:inherit;cursor:pointer;transition:background .35s,box-shadow .35s,transform .2s}
+.st-card:hover{transform:translateY(-2px)}
+.st-t{font:700 1.08rem var(--display);color:#cfe3f0}
+.st-d{display:block;max-height:0;opacity:0;overflow:hidden;color:#fff;transition:max-height .5s,opacity .35s}
+.st-wm{position:absolute;right:16px;top:50%;transform:translateY(-50%);font:800 4.2rem/1 var(--display);color:rgba(255,255,255,.14);opacity:0;transition:opacity .35s;pointer-events:none}
+.st.on .st-card{background:linear-gradient(160deg,#2ea6dc,#1f8fc6 55%,#13709f);border-color:transparent;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 18px 34px -16px rgba(51,176,230,.75)}
+.st.on .st-t{color:#fff}
+.st.on .st-d{max-height:200px;opacity:1;padding-right:104px}
+.st.on .st-wm{opacity:1}
+.st.on .st-n{color:#fff;background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.35),rgba(255,255,255,0) 45%),linear-gradient(140deg,#f46a40,#b5300f)}
+@media (max-width:900px){.stx-grid{grid-template-columns:1fr}.stx-pics{order:2}.stx-pic{aspect-ratio:3/4}}
+@media (max-width:600px){.st-wm{display:none}.st.on .st-d{padding-right:0}}
+@media (prefers-reduced-motion:reduce){.bfp,.bfp img,.bfp-more,.st-card,.st-d{transition:none}}
+/* ===== Premium 3D buttons (same layered structure as Saddle Up, MOH pill shape + colors) ===== */
+.btn-primary,.btn-ghost{position:relative;isolation:isolate;background:none!important;border-color:transparent!important;box-shadow:none!important;transition:filter .25s,transform .2s,translate .08s}
+.btn-primary{color:#fff;text-shadow:0 1px 0 rgba(90,20,0,.35);filter:drop-shadow(0 1px 1px rgba(40,10,0,.5)) drop-shadow(0 10px 16px rgba(226,64,24,.42))}
+.btn-primary::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;
+  background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%) -150% 0/250% 100% no-repeat,
+  linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55) 1px,rgba(255,255,255,0) 1px) 0 0/100% 100% no-repeat,
+  linear-gradient(0deg,rgba(90,20,0,.38),rgba(90,20,0,.38) 2px,rgba(90,20,0,0) 2px) 0 0/100% 100% no-repeat,
+  radial-gradient(120% 90% at 50% 0%,rgba(255,206,180,.5),rgba(255,206,180,0) 60%) 0 0/100% 100% no-repeat,
+  linear-gradient(#f46a40 0%,#e24018 50%,#b5300f 100%) 0 0/100% 100% no-repeat;
+  transition:background-position .7s}
+.btn-primary:hover{transform:translateY(-2px);filter:drop-shadow(0 1px 1px rgba(40,10,0,.5)) drop-shadow(0 14px 22px rgba(255,110,60,.6))}
+.btn-primary:hover::before{background-position:150% 0,0 0,0 0,0 0,0 0}
+.btn-primary:active{translate:0 1px;transform:none;filter:drop-shadow(0 1px 0 rgba(40,10,0,.4)) drop-shadow(0 4px 8px rgba(226,64,24,.3))}
+.btn-primary:active::before{background:linear-gradient(rgba(90,20,0,.3),rgba(90,20,0,0) 5px) 0 0/100% 100% no-repeat,linear-gradient(#e85a32 0%,#cf3814 55%,#a82b0d 100%) 0 0/100% 100% no-repeat}
+.btn-primary[disabled],.btn-primary[disabled]:hover,.btn-primary[disabled]:active{filter:none;translate:none;transform:none}
+.btn-ghost{color:#fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.45)) drop-shadow(0 8px 14px rgba(0,0,0,.32))}
+.btn-ghost::before{content:"";position:absolute;inset:0;z-index:-2;border-radius:inherit;background:linear-gradient(135deg,rgba(51,176,230,.95),rgba(255,255,255,.55) 50%,rgba(226,64,24,.9));transition:filter .25s}
+.btn-ghost::after{content:"";position:absolute;inset:1.6px;z-index:-1;border-radius:inherit;
+  background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18) 1px,rgba(255,255,255,0) 1px) 0 0/100% 100% no-repeat,
+  linear-gradient(0deg,rgba(0,0,0,.42),rgba(0,0,0,.42) 2px,rgba(0,0,0,0) 2px) 0 0/100% 100% no-repeat,
+  radial-gradient(120% 90% at 50% 0%,rgba(120,200,240,.22),rgba(120,200,240,0) 60%) 0 0/100% 100% no-repeat,
+  linear-gradient(#134563,#0a2a40 75%) 0 0/100% 100% no-repeat;transition:background .25s}
+.btn-ghost:hover{transform:translateY(-2px);filter:drop-shadow(0 1px 1px rgba(0,0,0,.45)) drop-shadow(0 12px 20px rgba(51,176,230,.35))}
+.btn-ghost:hover::after{background:linear-gradient(rgba(255,255,255,.22),rgba(255,255,255,.22) 1px,rgba(255,255,255,0) 1px) 0 0/100% 100% no-repeat,linear-gradient(0deg,rgba(0,0,0,.42),rgba(0,0,0,.42) 2px,rgba(0,0,0,0) 2px) 0 0/100% 100% no-repeat,linear-gradient(#1a5677,#0d3350 75%) 0 0/100% 100% no-repeat}
+.btn-ghost:active{translate:0 1px;transform:none}
+/* small pill buttons get the same treatment, lighter */
+.mixadd,.mx-pick,.mx-x,.mg-steps button,.mix-later{box-shadow:inset 0 1px 0 rgba(255,255,255,.18),inset 0 -2px 0 rgba(0,0,0,.35),0 6px 12px -6px rgba(0,0,0,.6)}
+.mixadd:active,.mx-pick:active,.mg-steps button:active{translate:0 1px}
+/* ===== Icons: 3D circles instead of rounded squares ===== */
+.ic,.card .ic,.tile .ic,.perks .pi,.mg-ic,.mix-badge,.mx-ic-c{border-radius:50%!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -3px 6px rgba(0,0,0,.28),0 10px 18px -8px rgba(0,0,0,.65)}
+.card .ic,.mg-ic,.mix-badge{background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.35),rgba(255,255,255,0) 45%),linear-gradient(140deg,#33b0e6,#e24018)!important}
+.tile .ic,.perks .pi{background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.28),rgba(255,255,255,0) 50%),linear-gradient(160deg,#1a5677,#0b3350)!important;color:#7fd3f5!important}
+.tile[aria-pressed="true"] .ic{background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.35),rgba(255,255,255,0) 45%),linear-gradient(140deg,#f46a40,#b5300f)!important;color:#fff!important}
+.svc img{width:72px!important;height:72px!important;object-fit:contain;background:none!important;padding:0!important;border-radius:50%!important;filter:drop-shadow(0 10px 14px rgba(0,0,0,.55)) drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+.why-ic{box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 14px 28px -12px rgba(0,0,0,.7)}
+@media (prefers-reduced-motion:reduce){.btn-primary::before{transition:none}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://jamesonflex.github.io/Message-On-Hold/#org", "name": "Message On Hold", "url": "https://jamesonflex.github.io/Message-On-Hold/", "logo": "https://jamesonflex.github.io/Message-On-Hold/icon-512.png", "telephone": "+1-800-392-4664", "email": "sales@messageonholdservice.com", "address": {"@type": "PostalAddress", "streetAddress": "3600 FM 1488 Ste 120-295", "addressLocality": "Conroe", "addressRegion": "TX", "postalCode": "77384", "addressCountry": "US"}, "areaServed": ["US", "CA"], "sameAs": ["https://www.instagram.com/message_on_hold", "https://www.linkedin.com/company/messageonhold"]}, {"@type": "WebSite", "@id": "https://jamesonflex.github.io/Message-On-Hold/#website", "url": "https://jamesonflex.github.io/Message-On-Hold/", "name": "Message On Hold", "publisher": {"@id": "https://jamesonflex.github.io/Message-On-Hold/#org"}}]}</script>
 </head>
@@ -651,7 +752,7 @@ body.playing{padding-bottom:84px}
         <li>Designed for high-volume restaurants</li>
       </ul>
     </div>
-    <div class="photo"><img src="https://messageonholdphones.com/wp-content/uploads/2025/12/Group-170749385811.webp" alt="Restaurant team taking phone orders" onerror="this.remove()"></div>
+    <div class="photo" id="heroArt"><span class="floor" aria-hidden="true"></span><div class="art"><img src="https://messageonholdphones.com/wp-content/uploads/2025/12/Group-170749385811.webp" alt="Restaurant phone ordering with Message On Hold" fetchpriority="high" onerror="this.closest('.photo').style.visibility='hidden'"></div></div>
   </div>
 </section>
 
@@ -664,9 +765,9 @@ body.playing{padding-bottom:84px}
   <div class="wrap">
     <div class="section-head"><span class="eyebrow">Why Choose Us?</span><h2>Why Restaurants Choose Message On Hold</h2></div>
     <div class="grid3">
-      <div class="card3d" data-tilt data-depth="8"><span class="num">✓</span><h3>Dedicated to Your Success</h3><p>Our team is committed to responsive service and ongoing support, delivering a seamless experience to every customer.</p></div>
-      <div class="card3d" data-tilt data-depth="8"><span class="num">♪</span><h3>Unmatched Quality and Technology</h3><p>All voice productions are crafted in our in-house studios, using 100% digital equipment and cloud-based systems.</p></div>
-      <div class="card3d" data-tilt data-depth="8"><span class="num">$</span><h3>Drive Revenue with Smart Customer Engagement</h3><p>Our solutions help you send timely promotions, updates, and offers, driving business and boosting revenue.</p><a href="https://messageonholdphones.com/wp-content/uploads/2026/01/Losing-Money-Explainer.pdf" style="color:var(--accent);font-weight:600;text-decoration:none">Show me more →</a></div>
+      <div class="card3d" data-tilt data-depth="8"><span class="why-ic" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="white"></circle><path d="M14.3956 30.4071C15.2625 30.4071 15.9653 29.7043 15.9653 28.8373C15.9653 27.9704 15.2625 27.2676 14.3956 27.2676C13.5286 27.2676 12.8258 27.9704 12.8258 28.8373C12.8258 29.7043 13.5286 30.4071 14.3956 30.4071Z" fill="#33B0E6"></path><path d="M18.2791 26.8593C17.9507 26.1824 17.45 25.6039 16.8273 25.1818C16.2046 24.7596 15.4818 24.5088 14.7315 24.4544C14.5078 24.4387 14.2833 24.4387 14.0596 24.4544C13.3093 24.5088 12.5864 24.7596 11.9637 25.1818C11.341 25.6039 10.8403 26.1824 10.5119 26.8593C10.1428 27.5905 9.96939 28.4048 10.0085 29.2229C10.0475 30.041 10.2978 30.8351 10.7348 31.5278L14.1318 36.8555C14.1601 36.8998 14.1991 36.9362 14.2452 36.9615C14.2913 36.9867 14.343 36.9999 14.3955 36.9999C14.4481 36.9999 14.4998 36.9867 14.5459 36.9615C14.5919 36.9362 14.6309 36.8998 14.6592 36.8555L18.0562 31.5278C18.4933 30.8351 18.7435 30.041 18.7826 29.2229C18.8217 28.4048 18.6482 27.5905 18.2791 26.8593ZM14.3955 31.0349C13.9609 31.0349 13.536 30.906 13.1746 30.6645C12.8132 30.423 12.5315 30.0798 12.3651 29.6782C12.1988 29.2766 12.1553 28.8347 12.2401 28.4084C12.3249 27.9821 12.5342 27.5905 12.8415 27.2832C13.1489 26.9758 13.5405 26.7665 13.9668 26.6817C14.3931 26.5969 14.835 26.6405 15.2365 26.8068C15.6381 26.9731 15.9813 27.2548 16.2228 27.6162C16.4643 27.9776 16.5932 28.4025 16.5932 28.8372C16.5925 29.4198 16.3608 29.9784 15.9488 30.3904C15.5368 30.8024 14.9782 31.0342 14.3955 31.0349Z" fill="#33B0E6"></path><path d="M34.0176 31.0348H23.6571C23.2824 31.0348 22.9231 30.886 22.6581 30.6211C22.3932 30.3561 22.2443 29.9968 22.2443 29.6221C22.2443 29.2474 22.3932 28.888 22.6581 28.6231C22.9231 28.3581 23.2824 28.2093 23.6571 28.2093H30.0932C31.0091 28.2093 31.8875 27.8454 32.5351 27.1978C33.1828 26.5501 33.5466 25.6717 33.5466 24.7558C33.5466 23.8399 33.1828 22.9615 32.5351 22.3138C31.8875 21.6662 31.0091 21.3023 30.0932 21.3023H18.9478C18.2401 21.3023 17.5613 21.0212 17.0608 20.5207C16.5604 20.0202 16.2792 19.3415 16.2792 18.6337C16.2792 17.926 16.5604 17.2472 17.0608 16.7467C17.5613 16.2463 18.2401 15.9651 18.9478 15.9651H24.756C24.8392 15.9651 24.9191 15.932 24.978 15.8732C25.0368 15.8143 25.0699 15.7344 25.0699 15.6512V14.3953C25.0699 14.3121 25.0368 14.2322 24.978 14.1733C24.9191 14.1145 24.8392 14.0814 24.756 14.0814H18.9478C17.7405 14.0814 16.5826 14.561 15.7289 15.4147C14.8751 16.2685 14.3955 17.4264 14.3955 18.6337C14.3955 19.8411 14.8751 20.999 15.7289 21.8527C16.5826 22.7064 17.7405 23.186 18.9478 23.186H30.0932C30.5095 23.186 30.9088 23.3514 31.2032 23.6458C31.4975 23.9402 31.6629 24.3395 31.6629 24.7558C31.6629 25.1721 31.4975 25.5714 31.2032 25.8658C30.9088 26.1602 30.5095 26.3256 30.0932 26.3256H23.6571C22.7828 26.3256 21.9444 26.6729 21.3261 27.2911C20.7079 27.9093 20.3606 28.7478 20.3606 29.6221C20.3606 30.4963 20.7079 31.3348 21.3261 31.953C21.9444 32.5713 22.7828 32.9186 23.6571 32.9186H34.0176C34.309 32.9186 34.5885 33.0343 34.7946 33.2404C35.0006 33.4465 35.1164 33.726 35.1164 34.0174C35.1164 34.3088 35.0006 34.5883 34.7946 34.7944C34.5885 35.0005 34.309 35.1162 34.0176 35.1162H16.9071C16.8584 35.1162 16.8103 35.1275 16.7667 35.1493C16.7231 35.1711 16.6852 35.2028 16.656 35.2418L15.7141 36.4976C15.6791 36.5443 15.6578 36.5997 15.6526 36.6578C15.6474 36.7159 15.6584 36.7743 15.6845 36.8264C15.7105 36.8786 15.7506 36.9224 15.8002 36.9531C15.8498 36.9837 15.907 37 15.9653 37H34.0176C34.8086 37 35.5672 36.6857 36.1266 36.1264C36.6859 35.567 37.0001 34.8084 37.0001 34.0174C37.0001 33.2264 36.6859 32.4678 36.1266 31.9084C35.5672 31.3491 34.8086 31.0348 34.0176 31.0348ZM29.4653 10H26.0118C25.9285 10 25.8486 10.0331 25.7898 10.092C25.7309 10.1508 25.6978 10.2307 25.6978 10.314V12.5116H29.4653V10ZM36.6862 10H33.2327V12.5116H37.0001V10.314C37.0001 10.2307 36.967 10.1508 36.9082 10.092C36.8493 10.0331 36.7694 10 36.6862 10ZM31.349 12.8256C31.3902 12.8255 31.431 12.8336 31.4691 12.8494C31.5072 12.8652 31.5418 12.8884 31.5709 12.9176L32.6048 13.9514V10H30.0932V13.9514L31.127 12.9176C31.1561 12.8884 31.1907 12.8652 31.2288 12.8494C31.2669 12.8336 31.3077 12.8255 31.349 12.8256Z" fill="#33B0E6"></path><path d="M33.2327 14.7094C33.2327 14.7715 33.2143 14.8322 33.1798 14.8838C33.1453 14.9354 33.0963 14.9756 33.0389 14.9994C32.9816 15.0232 32.9185 15.0294 32.8576 15.0173C32.7967 15.0052 32.7407 14.9753 32.6968 14.9314L31.349 13.5836L30.0012 14.9314C29.9573 14.9753 29.9014 15.0052 29.8405 15.0173C29.7796 15.0294 29.7165 15.0232 29.6591 14.9994C29.6018 14.9756 29.5527 14.9354 29.5182 14.8838C29.4837 14.8322 29.4653 14.7715 29.4653 14.7094V13.1396H25.6979V19.7327C25.6979 19.8159 25.731 19.8958 25.7898 19.9547C25.8487 20.0135 25.9286 20.0466 26.0118 20.0466H36.6862C36.7695 20.0466 36.8494 20.0135 36.9082 19.9547C36.9671 19.8958 37.0002 19.8159 37.0002 19.7327V13.1396H33.2327V14.7094ZM28.5235 19.1048H26.9537C26.8704 19.1048 26.7906 19.0717 26.7317 19.0128C26.6728 18.9539 26.6397 18.8741 26.6397 18.7908C26.6397 18.7075 26.6728 18.6277 26.7317 18.5688C26.7906 18.5099 26.8704 18.4768 26.9537 18.4768H28.5235C28.6067 18.4768 28.6866 18.5099 28.7455 18.5688C28.8043 18.6277 28.8374 18.7075 28.8374 18.7908C28.8374 18.8741 28.8043 18.9539 28.7455 19.0128C28.6866 19.0717 28.6067 19.1048 28.5235 19.1048ZM30.4072 17.8489H26.9537C26.8704 17.8489 26.7906 17.8159 26.7317 17.757C26.6728 17.6981 26.6397 17.6183 26.6397 17.535C26.6397 17.4517 26.6728 17.3719 26.7317 17.313C26.7906 17.2541 26.8704 17.221 26.9537 17.221H30.4072C30.4904 17.221 30.5703 17.2541 30.6292 17.313C30.688 17.3719 30.7211 17.4517 30.7211 17.535C30.7211 17.6183 30.688 17.6981 30.6292 17.757C30.5703 17.8159 30.4904 17.8489 30.4072 17.8489Z" fill="#33B0E6"></path></svg></span><h3>Dedicated to Your Success</h3><p>Our team is committed to responsive service and ongoing support, delivering a seamless experience to every customer.</p></div>
+      <div class="card3d" data-tilt data-depth="8"><span class="why-ic" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="white"></circle><path d="M35.7851 33.5419V37H12.215V33.5412C12.215 31.9082 13.6228 29.8979 15.3426 29.081L19.1695 27.2629L21.8261 32.7988L23.1862 29.111C23.4544 29.1617 23.7203 29.2294 24 29.2294C24.2798 29.2294 24.5449 29.1617 24.8138 29.111L26.1048 32.6175L28.7091 27.2014L32.6598 29.0803C34.3773 29.8971 35.7851 31.9074 35.7851 33.5419ZM15.6915 21.4218V18.9243C15.6915 18.5009 15.912 18.1298 16.2448 17.9161C16.6912 14.0293 19.9971 11 24.0016 11C28.006 11 31.3127 14.0293 31.7599 17.9161C32.0919 18.1298 32.3124 18.5009 32.3124 18.9243V21.4218C32.3124 21.7404 32.1859 22.0459 31.9606 22.2711C31.7354 22.4964 31.4299 22.6229 31.1113 22.6229C30.7928 22.6229 30.4873 22.4964 30.262 22.2711C30.0368 22.0459 29.9102 21.7404 29.9102 21.4218V20.897C29.2601 24.1668 26.8664 27.2022 24.0023 27.2022C21.1383 27.2022 18.7446 24.1668 18.0944 20.897V21.4218C18.0944 21.9597 17.7371 22.4101 17.2491 22.563C17.734 24.2035 18.8021 25.61 20.2523 26.5175C20.5228 26.4283 20.864 26.4452 21.1952 26.6174C21.7269 26.894 21.9982 27.4319 21.7969 27.8162C21.5963 28.2004 21.003 28.2865 20.4682 28.009C20.0778 27.8054 19.8304 27.4634 19.8043 27.1438C18.1421 26.0875 16.9421 24.4404 16.4461 22.5346C16.2235 22.4458 16.0326 22.2923 15.8981 22.0939C15.7636 21.8956 15.6916 21.6615 15.6915 21.4218ZM17.0632 17.6356C17.0993 17.6379 17.1339 17.6387 17.1684 17.6518C17.2503 17.6837 17.3187 17.7428 17.3621 17.8193C17.6226 17.93 17.8301 18.1321 17.9577 18.3826C18.3119 15.0621 20.8786 13.3054 24 13.3054C27.1215 13.3054 29.6882 15.0621 30.0424 18.3826C30.1302 18.2092 30.2591 18.06 30.4178 17.9479C30.5766 17.8357 30.7603 17.7642 30.953 17.7394C30.4336 14.3635 27.518 11.7677 24 11.7677C20.5182 11.7685 17.6257 14.3113 17.0632 17.6356Z" fill="#33B0E6"></path></svg></span><h3>Unmatched Quality and Technology</h3><p>All voice productions are crafted in our in-house studios, using 100% digital equipment and cloud-based systems.</p></div>
+      <div class="card3d" data-tilt data-depth="8"><span class="why-ic" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="white"></circle><path d="M25.6883 30.9693C27.7348 30.9693 29.3939 29.3102 29.3939 27.2637C29.3939 25.2172 27.7348 23.5581 25.6883 23.5581C23.6417 23.5581 21.9827 25.2172 21.9827 27.2637C21.9827 29.3102 23.6417 30.9693 25.6883 30.9693Z" fill="#33B0E6"></path><path d="M34.3226 25.9407C34.061 25.9407 33.8052 26.0183 33.5877 26.1637C33.3702 26.309 33.2006 26.5156 33.1005 26.7573C33.0004 26.999 32.9742 27.265 33.0253 27.5216C33.0763 27.7781 33.2023 28.0138 33.3873 28.1988C33.5723 28.3838 33.808 28.5098 34.0645 28.5608C34.3211 28.6119 34.5871 28.5857 34.8288 28.4856C35.0705 28.3854 35.2771 28.2159 35.4224 27.9984C35.5678 27.7808 35.6454 27.5251 35.6454 27.2635C35.6451 26.9128 35.5056 26.5765 35.2576 26.3285C35.0096 26.0805 34.6733 25.941 34.3226 25.9407ZM17.0529 28.5857C17.3145 28.5858 17.5703 28.5083 17.788 28.363C18.0056 28.2177 18.1752 28.0111 18.2754 27.7694C18.3756 27.5277 18.4018 27.2617 18.3508 27.005C18.2998 26.7484 18.1738 26.5126 17.9887 26.3276C17.8037 26.1426 17.568 26.0166 17.3113 25.9656C17.0547 25.9146 16.7887 25.9408 16.547 26.041C16.3052 26.1412 16.0987 26.3108 15.9533 26.5284C15.808 26.746 15.7305 27.0018 15.7307 27.2635C15.7311 27.614 15.8705 27.9501 16.1184 28.198C16.3663 28.4458 16.7023 28.5853 17.0529 28.5857Z" fill="#33B0E6"></path><path d="M37.4793 20.5251H13.8973C13.6733 20.5253 13.4586 20.6143 13.3002 20.7726C13.1417 20.9309 13.0526 21.1456 13.0523 21.3696V33.1573C13.0532 33.3809 13.1425 33.5951 13.3009 33.7531C13.4592 33.911 13.6737 33.9998 13.8973 34.0001H37.4793C37.7029 33.9998 37.9172 33.911 38.0755 33.753C38.2337 33.5951 38.323 33.3809 38.3237 33.1573V21.3696C38.3234 21.1457 38.2344 20.9311 38.0761 20.7728C37.9178 20.6145 37.7031 20.5254 37.4793 20.5251ZM17.0529 24.8486C17.531 24.8485 17.9984 24.9902 18.396 25.2557C18.7936 25.5213 19.1035 25.8988 19.2866 26.3405C19.4696 26.7822 19.5176 27.2682 19.4243 27.7372C19.3311 28.2061 19.1009 28.6369 18.7629 28.975C18.4249 29.3131 17.9941 29.5434 17.5252 29.6367C17.0563 29.73 16.5702 29.6822 16.1285 29.4993C15.6867 29.3163 15.3092 29.0065 15.0435 28.6089C14.7779 28.2114 14.6361 27.744 14.6361 27.2659C14.6363 26.6247 14.8908 26.0098 15.344 25.5562C15.7971 25.1026 16.4117 24.8473 17.0529 24.8464V24.8486ZM15.1834 32.9871H14.895C14.7498 32.9871 14.6106 32.9294 14.508 32.8268C14.4054 32.7242 14.3477 32.585 14.3477 32.4398C14.3477 32.2947 14.4054 32.1555 14.508 32.0528C14.6106 31.9502 14.7498 31.8925 14.895 31.8925H15.1834C15.3285 31.8925 15.4677 31.9502 15.5704 32.0528C15.673 32.1555 15.7307 32.2947 15.7307 32.4398C15.7307 32.585 15.673 32.7242 15.5704 32.8268C15.4677 32.9294 15.3285 32.9871 15.1834 32.9871ZM21.4354 32.9871H16.5614C16.4163 32.9871 16.2771 32.9294 16.1744 32.8268C16.0718 32.7242 16.0141 32.585 16.0141 32.4398C16.0141 32.2947 16.0718 32.1555 16.1744 32.0528C16.2771 31.9502 16.4163 31.8925 16.5614 31.8925H21.4354C21.5806 31.8925 21.7198 31.9502 21.8224 32.0528C21.925 32.1555 21.9827 32.2947 21.9827 32.4398C21.9827 32.585 21.925 32.7242 21.8224 32.8268C21.7198 32.9294 21.5806 32.9871 21.4354 32.9871ZM25.6883 32.0638C24.7389 32.064 23.8108 31.7825 23.0213 31.2551C22.2319 30.7278 21.6165 29.9781 21.2532 29.101C20.8898 28.2239 20.7946 27.2588 20.9798 26.3276C21.1649 25.3964 21.6221 24.5411 22.2933 23.8697C22.9646 23.1983 23.8199 22.7411 24.7511 22.5559C25.6822 22.3706 26.6474 22.4656 27.5245 22.8289C28.4017 23.1922 29.1514 23.8075 29.6789 24.5968C30.2063 25.3862 30.4879 26.3143 30.4879 27.2637C30.4864 28.5362 29.9803 29.7563 29.0805 30.6561C28.1808 31.556 26.9608 32.0622 25.6883 32.0638ZM34.3226 29.6805C33.8445 29.6805 33.3771 29.5387 32.9796 29.273C32.582 29.0074 32.2722 28.6298 32.0893 28.1881C31.9063 27.7464 31.8585 27.2603 31.9518 26.7914C32.0451 26.3224 32.2754 25.8917 32.6135 25.5537C32.9516 25.2156 33.3824 24.9855 33.8513 24.8922C34.3203 24.799 34.8064 24.847 35.248 25.03C35.6897 25.2131 36.0672 25.523 36.3328 25.9206C36.5983 26.3182 36.74 26.7856 36.7399 27.2637C36.7392 27.9046 36.4843 28.5189 36.0311 28.972C35.5779 29.4251 34.9634 29.6799 34.3226 29.6805Z" fill="#33B0E6"></path><path d="M8.30526 25.0483L11.9578 26.0235V21.3717C11.9583 20.8576 12.1629 20.3646 12.5265 20.0011C12.8901 19.6376 13.3831 19.4332 13.8973 19.4327H35.0904L35.1643 19.1525C35.1935 19.0457 35.2013 18.934 35.1871 18.8242C35.1729 18.7143 35.1371 18.6083 35.0816 18.5123C35.0262 18.4164 34.9523 18.3324 34.8642 18.2652C34.7761 18.198 34.6755 18.149 34.5683 18.1209L11.781 12.027C11.6745 11.998 11.5634 11.9905 11.454 12.005C11.3446 12.0194 11.2392 12.0556 11.144 12.1113C11.0478 12.1667 10.9637 12.2405 10.8963 12.3287C10.8289 12.4168 10.7797 12.5174 10.7516 12.6247L7.706 24.014C7.67724 24.1212 7.66994 24.2331 7.68451 24.3432C7.69908 24.4533 7.73524 24.5594 7.79091 24.6555C7.84659 24.7516 7.92068 24.8358 8.00894 24.9032C8.0972 24.9706 8.1979 25.0199 8.30526 25.0483Z" fill="#33B0E6"></path></svg></span><h3>Drive Revenue with Smart Customer Engagement</h3><p>Our solutions help you send timely promotions, updates, and offers, driving business and boosting revenue.</p><a href="https://messageonholdphones.com/wp-content/uploads/2026/01/Losing-Money-Explainer.pdf" style="color:var(--accent);font-weight:600;text-decoration:none">Show me more →</a></div>
     </div>
   </div>
 </section>
@@ -716,30 +817,54 @@ body.playing{padding-bottom:84px}
   </div>
 </section>
 
-<section style="padding-top:0">
-  <div class="wrap bf">
-    <div>
-      <div class="section-head" style="margin-bottom:22px">
-        <span class="eyebrow">Who it’s for</span>
-        <h2>Phone &amp; Ordering Solutions for Pizza Chains, QSRs &amp; Multi-Location Restaurants</h2>
-        <p class="lede">Whether you run a single store or multiple locations, our platform helps you answer more calls, process more orders, and keep technology out of your way.</p>
-      </div>
-      <div class="tabs" role="tablist" id="bfTabs"></div>
-      <div class="panel" role="tabpanel" id="bfPanel"></div>
+<section class="bfx" id="built-for">
+  <div class="wrap">
+    <div class="sx-head">
+      <h2>Built For High-Volume <span class="acc">Restaurants &amp; QSRs</span></h2>
+      <span class="dashes" aria-hidden="true"><i></i><i></i><i></i></span>
+      <p class="lede">Whether you run a single store or multiple locations, our platform helps you answer more calls, process more orders, and keep technology out of your way.</p>
     </div>
-    <div class="bf-pic"><div data-tilt data-depth="8"><img id="bfImg" src="https://messageonholdphones.com/wp-content/uploads/2025/12/image-77.webp" alt="" loading="lazy" onerror="this.style.opacity=0"></div></div>
+  </div>
+  <div class="bfx-row" id="bfRow">
+      <article class="bfp on" tabindex="0" aria-expanded="true">
+        <img src="https://messageonholdphones.com/wp-content/uploads/2025/12/62833103fade5299393d11d3e50849c679e0a41c.webp" alt="Pizza restaurant phone ordering and delivery" loading="lazy" onerror="this.style.opacity=0">
+        <div class="bfp-in"><h3>Pizza chains &amp; independents</h3><div class="bfp-more"><p>From high-volume chains to single-store independents, pizza operations depend on phones, speed, and accuracy. Message On Hold helps you capture every order, automate calls, and keep delivery and online ordering running — even during peak rushes.</p><div class="btns"><a class="btn btn-primary" href="#demos">Hear A Demo</a><a class="btn btn-ghost" href="contact.html">Get Free Trial</a></div></div></div>
+      </article>
+      <article class="bfp" tabindex="0" aria-expanded="false">
+        <img src="https://messageonholdphones.com/wp-content/uploads/2025/12/3aa06eb6088e23df3ffc7e0e7063a5b2a7b2c365.webp" alt="Quick-service restaurant mobile and phone ordering" loading="lazy" onerror="this.style.opacity=0">
+        <div class="bfp-in"><h3>Quick-service restaurants</h3><div class="bfp-more"><p>Speed is everything in QSR. Our solutions reduce missed calls, automate ordering, and keep lines moving so your team can focus on serving more customers, faster — without sacrificing accuracy or uptime.</p><div class="btns"><a class="btn btn-primary" href="#demos">Hear A Demo</a><a class="btn btn-ghost" href="contact.html">Get Free Trial</a></div></div></div>
+      </article>
+      <article class="bfp" tabindex="0" aria-expanded="false">
+        <img src="https://messageonholdphones.com/wp-content/uploads/2025/12/bc063b6bf1faf777d441ecf20df4868e58c56185.webp" alt="Fast casual restaurant online ordering" loading="lazy" onerror="this.style.opacity=0">
+        <div class="bfp-in"><h3>Fast casual</h3><div class="bfp-more"><p>Fast casual customers expect convenience, quality, and consistency. Message On Hold powers seamless ordering, branded digital experiences, and loyalty tools that keep guests coming back while streamlining your operations behind the scenes.</p><div class="btns"><a class="btn btn-primary" href="#demos">Hear A Demo</a><a class="btn btn-ghost" href="contact.html">Get Free Trial</a></div></div></div>
+      </article>
+      <article class="bfp" tabindex="0" aria-expanded="false">
+        <img src="https://messageonholdphones.com/wp-content/uploads/2025/12/404c3bfe07a185cddc0945d470f5e82732e84d78.webp" alt="Delivery restaurant ordering app" loading="lazy" onerror="this.style.opacity=0">
+        <div class="bfp-in"><h3>Delivery-focused concepts</h3><div class="bfp-more"><p>When delivery is your business, downtime isn’t an option. We keep phones, online orders, drivers, and customer communications connected at all times — helping you deliver faster, smarter, and more reliably.</p><div class="btns"><a class="btn btn-primary" href="#demos">Hear A Demo</a><a class="btn btn-ghost" href="contact.html">Get Free Trial</a></div></div></div>
+      </article>
+      <article class="bfp" tabindex="0" aria-expanded="false">
+        <img src="https://messageonholdphones.com/wp-content/uploads/2025/12/2b8b04da9e100d6f10c0c21914af96a5e8c05d4e.webp" alt="Multi-location restaurant phone system" loading="lazy" onerror="this.style.opacity=0">
+        <div class="bfp-in"><h3>Multi-location operators</h3><div class="bfp-more"><p>Managing multiple locations requires systems that scale. Message On Hold delivers centralized control, consistent customer experiences, and reliable connectivity across every store — so growth doesn’t create complexity.</p><div class="btns"><a class="btn btn-primary" href="#demos">Hear A Demo</a><a class="btn btn-ghost" href="contact.html">Get Free Trial</a></div></div></div>
+      </article>
   </div>
 </section>
 
-<section class="band">
-  <div class="wrap">
-    <div class="section-head"><span class="eyebrow">How it works</span><h2>How Message On Hold Works: From Missed Calls to Managed Orders in 3 Steps</h2></div>
-    <div class="steps">
-      <div class="step" data-tilt data-depth="8"><span class="n">01</span><h3>Quick Assessment</h3><p>We learn how your phones, online ordering, and delivery work today.</p></div>
-      <div class="step" data-tilt data-depth="8"><span class="n">02</span><h3>Custom Setup</h3><p>Custom-configured solutions engineered specifically for your concept—never generic, never off the shelf.</p></div>
-      <div class="step" data-tilt data-depth="8"><span class="n">03</span><h3>Launch &amp; Optimize</h3><p>Launch in weeks, not months—and start seeing returns immediately.</p></div>
+<section class="stx" id="how-it-works">
+  <div class="wrap stx-grid">
+    <div class="stx-pics">
+      <div class="stx-pic"><img src="https://messageonholdphones.com/wp-content/uploads/2025/12/image-77.webp" alt="Restaurant staff serving orders taken by phone" loading="lazy" onerror="this.style.opacity=0"></div>
+      <div class="stx-pic"><img src="https://messageonholdphones.com/wp-content/uploads/2025/12/image-78.webp" alt="Customer placing a restaurant order on a smartphone" loading="lazy" onerror="this.style.opacity=0"></div>
     </div>
-    <div style="margin-top:32px"><a class="btn btn-primary" href="contact.html">Schedule a Free 15-Minute Call</a></div>
+    <div class="stx-copy">
+      <h2>From Missed Calls To Fully Managed <span class="acc">Orders In 3 Steps</span></h2>
+      <span class="dashes" aria-hidden="true"><i></i><i></i><i></i></span>
+      <ol class="stx-list" id="stxList">
+          <li class="st on"><span class="st-n">01</span><button type="button" class="st-card" aria-expanded="true"><span class="st-t">Quick Assessment</span><span class="st-d">We learn how your phones, online ordering, and delivery work today.</span><span class="st-wm" aria-hidden="true">01</span></button></li>
+          <li class="st"><span class="st-n">02</span><button type="button" class="st-card" aria-expanded="false"><span class="st-t">Custom Setup</span><span class="st-d">Custom-configured solutions engineered specifically for your concept—never generic, never off the shelf.</span><span class="st-wm" aria-hidden="true">02</span></button></li>
+          <li class="st"><span class="st-n">03</span><button type="button" class="st-card" aria-expanded="false"><span class="st-t">Launch &amp; Optimize</span><span class="st-d">Launch in weeks, not months—and start seeing returns immediately.</span><span class="st-wm" aria-hidden="true">03</span></button></li>
+      </ol>
+      <div><a class="btn btn-primary" href="contact.html">Schedule a Free 15-Minute Call</a></div>
+    </div>
   </div>
 </section>
 
@@ -1182,6 +1307,13 @@ for(let g=0;g<2;g++){
   mq.appendChild(grp);
 }
 
+/* ---------- hero phones: 3D tilt follows the mouse ---------- */
+(function(){
+  const box=document.getElementById("heroArt");if(!box||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const art=box.querySelector(".art");
+  box.addEventListener("pointermove",e=>{if(e.pointerType!=="mouse")return;const r=box.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;art.style.setProperty("--ry",(-10+x*16).toFixed(2)+"deg");art.style.setProperty("--rx",(5-y*12).toFixed(2)+"deg")});
+  box.addEventListener("pointerleave",()=>{art.style.removeProperty("--ry");art.style.removeProperty("--rx")});
+})();
 /* ---------- Services ---------- */
 [["AI Ordering","Turn every call into cash. 24/7 automated ordering with POS integration and upselling.","ai-ordering","2025/12/Group-1707493858.svg"],
  ["VOIP Phone Systems for Restaurants","Crystal-Clear Calls. Reliable Ordering. Smart AI-Ready Technology.","voip-phone-systems-for-restaurants","2025/12/Group-1707493591.svg"],
@@ -1196,21 +1328,25 @@ for(let g=0;g<2;g++){
   document.getElementById("services-grid").appendChild(c);
 });
 
-/* ---------- Built for ---------- */
-const BF=[
-  ["Pizza chains & independents","From high-volume chains to single-store independents, pizza operations depend on phones, speed, and accuracy. Message On Hold helps you capture every order, automate calls, and keep delivery and online ordering running — even during peak rushes.","2025/12/image-77.webp"],
-  ["Quick-service restaurants","Speed is everything in QSR. Our solutions reduce missed calls, automate ordering, and keep lines moving so your team can focus on serving more customers, faster — without sacrificing accuracy or uptime.","2025/12/image-78.webp"],
-  ["Fast casual","Fast casual customers expect convenience, quality, and consistency. Message On Hold powers seamless ordering, branded digital experiences, and loyalty tools that keep guests coming back while streamlining your operations behind the scenes.","2026/01/food-content-creator-filming-variety-dishes-upload-internet-scaled.webp"],
-  ["Delivery-focused concepts","When delivery is your business, downtime isn’t an option. We keep phones, online orders, drivers, and customer communications connected at all times — helping you deliver faster, smarter, and more reliably.","2026/01/pexels-mibernaa-19069609-1-scaled.webp"],
-  ["Multi-location operators","Managing multiple locations requires systems that scale. Message On Hold delivers centralized control, consistent customer experiences, and reliable connectivity across every store — so growth doesn’t create complexity.","2026/01/e-mail-global-communications-connection-social-networking-concept-scaled.webp"]
-];
-function showBF(i){
-  document.querySelectorAll("#bfTabs .tab").forEach((b,j)=>b.setAttribute("aria-selected",String(i===j)));
-  document.getElementById("bfPanel").innerHTML='<h3>'+esc(BF[i][0])+'</h3><p>'+esc(BF[i][1])+'</p><div class="btns"><a class="btn btn-primary" href="#demos">Hear a Demo</a><a class="btn btn-ghost" href="contact.html">Get Free Trial</a></div>';
-  const im=document.getElementById("bfImg");im.style.opacity=0;im.src=U+BF[i][2];im.onload=()=>im.style.opacity=1;
-}
-BF.forEach(([t],i)=>{const b=document.createElement("button");b.className="tab";b.type="button";b.setAttribute("role","tab");b.textContent=t;b.onclick=()=>showBF(i);document.getElementById("bfTabs").appendChild(b)});
-showBF(0);
+/* ---------- Built for: expanding photo panels (hover/focus on desktop, tap on phones) ---------- */
+(function(){
+  const row=document.getElementById("bfRow");if(!row)return;const ps=[...row.querySelectorAll(".bfp")];
+  const set=p=>ps.forEach(x=>{const on=x===p;x.classList.toggle("on",on);x.setAttribute("aria-expanded",String(on))});
+  const fine=matchMedia("(hover:hover) and (pointer:fine)"),wide=matchMedia("(min-width:821px)");
+  ps.forEach(p=>{
+    p.addEventListener("mouseenter",()=>{if(fine.matches)set(p)});
+    p.addEventListener("focusin",()=>set(p));
+    p.addEventListener("click",e=>{if(!p.classList.contains("on")){e.preventDefault();set(p)}});
+    p.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){if(e.target===p){e.preventDefault();set(p)}}});
+  });
+  row.addEventListener("mouseleave",()=>{if(fine.matches&&wide.matches)set(null)});
+  if(fine.matches&&wide.matches)set(null);
+})();
+/* ---------- 3 steps: click a step to open it ---------- */
+(function(){
+  const list=document.getElementById("stxList");if(!list)return;const items=[...list.querySelectorAll(".st")];
+  items.forEach(li=>li.querySelector(".st-card").addEventListener("click",()=>items.forEach(x=>{const on=x===li;x.classList.toggle("on",on);x.querySelector(".st-card").setAttribute("aria-expanded",String(on))})));
+})();
 
 /* ---------- Illustrated reviewer avatars (non-photographic) ---------- */
 const AVK={
