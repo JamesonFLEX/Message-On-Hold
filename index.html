@@ -1113,7 +1113,7 @@ const LIB={
   voice:{title:"Your Voice Of Choice!",
     intro:"Browse through our bank of talented HUMAN voice actors and actresses! You’re sure to find one that appeals to you! Or get creative – keep your callers entertained and make them NOT want to hang up! Suggest your own script idea for a menu item or store event or even give your mascot a character voice for some extra fun! Just get us started and we’ll do the rest! Celebrate the holidays with a visit from Dracula or Santa….anything goes!",
     cats:{
-      "Restaurant Casual":[["Billie","Billie_Casual-1.mp3"],["Harris","Harris_Casual-1.mp3"],["Issa","Issa_Casual-1.mp3"],["Issa (Spanish)","Issa_SpanishCasual-1.mp3"],["Jameson","Jameson_Casual-1.mp3"],["Jenni","Jenni_Casual-1.mp3"],["Kevin","Kevin_Casual-1.mp3"],["Philip","Phillip_Casual-1.mp3"],["Rikki","Rikki_Casual-1.mp3"],["Sarah","Sarah_Casual-1.mp3"],["Susan","Susan_Casual-1.mp3"]],
+      "Restaurant Casual":[["Billie","Billie_Casual-1.mp3"],["Harris","Harris_Casual-1.mp3"],["Issa","Issa_Casual-1.mp3"],["Issa (Spanish)","Issa_SpanishCasual-1.mp3"],["Maria (Spanish)","audio/Maria_Spanish.mp3"],["Jameson","Jameson_Casual-1.mp3"],["Jenni","Jenni_Casual-1.mp3"],["Kevin","Kevin_Casual-1.mp3"],["Philip","Phillip_Casual-1.mp3"],["Rikki","Rikki_Casual-1.mp3"],["Sarah","Sarah_Casual-1.mp3"],["Susan","Susan_Casual-1.mp3"]],
       "Office Professional":[["Billie","Billie_Professional.mp3"],["Harris","Harris_Professional.wav"],["Issa","Issa_Professional.mp3"],["Jameson","Jameson_Professional.mp3"],["Jenni","Jenni_Professional.mp3"],["Kevin","Kevin_Professional.mp3"],["Philip","Philip_Professional.mp3"],["Rikki","Rikki_Professional.mp3"],["Sarah","Sarah_Professional.mp3"],["Susan","Susan_Professional.mp3"]],
       "Say It With Character":[["Brooklyn Guy","Brooklyn-Guy.mp3"],["Cowboy (John Wayne)","Cowboy_JohnWayne.mp3"],["Dracula","Dracula.mp3"],["Leprechaun","Leprechaun.mp3"],["Mascot (Joey Bomber)","Mascot_JoeyBomber.mp3"],["Mrs Claus","Mrs-Claus.mp3"],["Ned Turkey","Ned-Turkey.mp3"],["Santa","Santa.mp3"],["Witch","Witch.mp3"]]
     }}
@@ -1212,7 +1212,7 @@ function renderLib(){
     if(!rows.length){ul.innerHTML='<li class="g-wait">No '+({m:"male",f:"female",s:"Spanish"})[gender]+' voices in this category. Try another category.</li>'}
   }else cats.hidden=false;
   rows.forEach(([name,file])=>{
-    const src=A+file,li=document.createElement("li");li.className="track";
+    const src=(file.startsWith("audio/")?file:A+file),li=document.createElement("li");li.className="track";
     li.dataset.src=src;li.dataset.name=name;
     li.innerHTML='<button class="play" type="button"></button><span class="t-name">'+esc(name)+'</span><span class="t-time" data-def="'+(file.endsWith(".wav")?"WAV":"MP3")+'"></span><button type="button" class="mixadd" aria-pressed="false" aria-label="Add '+esc(name)+' to the audio mixer"><svg class="mixadd-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg><span class="mixadd-tx">Add to Mix</span></button><span class="t-bar"></span>';
     li.onclick=()=>playTrack({src,name,cat});   // whole row is the play target
