@@ -696,7 +696,7 @@ body.playing{padding-bottom:84px}
 @media (max-width:1100px){.tracks{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){
   .tracks{grid-template-columns:minmax(0,1fr)}
-  .g-pick{display:grid;grid-template-columns:1fr 1fr}.g-lab{grid-column:1/-1}
+  .g-pick{display:grid;grid-template-columns:1fr 1fr}.g-lab{grid-column:1/-1}.g-btn[data-g="s"]{grid-column:1/-1}
   .g-btn{justify-content:center;padding:12px 10px;font-size:.95rem}
   .mixadd{padding:9px 12px!important;font-size:.8rem!important}
 }
@@ -926,6 +926,7 @@ body.playing{padding-bottom:84px}
       <span class="g-lab">Pick a voice type:</span>
       <button type="button" class="g-btn" data-g="m" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="14" r="6"/><path d="M14.5 9.5 21 3M15 3h6v6"/></svg>Male Voices</button>
       <button type="button" class="g-btn" data-g="f" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M12 15v7M8.5 19h7"/></svg>Female Voices</button>
+      <button type="button" class="g-btn" data-g="s" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Spanish Voices</button>
     </div>
     <div class="cats" role="tablist" id="cats" aria-label="Categories"></div>
     <ul class="tracks" id="tracks"></ul>
@@ -1112,16 +1113,19 @@ const LIB={
   voice:{title:"Your Voice Of Choice!",
     intro:"Browse through our bank of talented HUMAN voice actors and actresses! You’re sure to find one that appeals to you! Or get creative – keep your callers entertained and make them NOT want to hang up! Suggest your own script idea for a menu item or store event or even give your mascot a character voice for some extra fun! Just get us started and we’ll do the rest! Celebrate the holidays with a visit from Dracula or Santa….anything goes!",
     cats:{
-      "Restaurant Casual":[["Billie","Billie_Casual-1.mp3"],["Harris","Harris_Casual-1.mp3"],["Issa","Issa_Casual-1.mp3"],["Issa (Spanish)","Issa_SpanishCasual-1.mp3"],["Jameson","Jameson_Casual-1.mp3"],["Jenni","Jenni_Casual-1.mp3"],["Kevin","Kevin_Casual-1.mp3"],["Phillip","Phillip_Casual-1.mp3"],["Rikki","Rikki_Casual-1.mp3"],["Sarah","Sarah_Casual-1.mp3"],["Susan","Susan_Casual-1.mp3"]],
+      "Restaurant Casual":[["Billie","Billie_Casual-1.mp3"],["Harris","Harris_Casual-1.mp3"],["Issa","Issa_Casual-1.mp3"],["Issa (Spanish)","Issa_SpanishCasual-1.mp3"],["Jameson","Jameson_Casual-1.mp3"],["Jenni","Jenni_Casual-1.mp3"],["Kevin","Kevin_Casual-1.mp3"],["Philip","Phillip_Casual-1.mp3"],["Rikki","Rikki_Casual-1.mp3"],["Sarah","Sarah_Casual-1.mp3"],["Susan","Susan_Casual-1.mp3"]],
       "Office Professional":[["Billie","Billie_Professional.mp3"],["Harris","Harris_Professional.wav"],["Issa","Issa_Professional.mp3"],["Jameson","Jameson_Professional.mp3"],["Jenni","Jenni_Professional.mp3"],["Kevin","Kevin_Professional.mp3"],["Philip","Philip_Professional.mp3"],["Rikki","Rikki_Professional.mp3"],["Sarah","Sarah_Professional.mp3"],["Susan","Susan_Professional.mp3"]],
       "Say It With Character":[["Brooklyn Guy","Brooklyn-Guy.mp3"],["Cowboy (John Wayne)","Cowboy_JohnWayne.mp3"],["Dracula","Dracula.mp3"],["Leprechaun","Leprechaun.mp3"],["Mascot (Joey Bomber)","Mascot_JoeyBomber.mp3"],["Mrs Claus","Mrs-Claus.mp3"],["Ned Turkey","Ned-Turkey.mp3"],["Santa","Santa.mp3"],["Witch","Witch.mp3"]]
     }}
 };
 
 /* Voice gender. Their site doesn't label it, so this is set from the names; edit here if a voice is wrong. */
-const GENDER={Billie:"f",Harris:"m",Issa:"f",Jameson:"m",Jenni:"f",Kevin:"m",Phillip:"m",Philip:"m",Rikki:"f",Sarah:"f",Susan:"f",
+const GENDER={Billie:"f",Harris:"m",Issa:"f","Issa (Spanish)":"s",Maria:"s",Jameson:"m",Jenni:"f",Kevin:"m",Phillip:"m",Philip:"m",Rikki:"f",Sarah:"f",Susan:"f",
   "Brooklyn Guy":"m","Cowboy (John Wayne)":"m",Dracula:"m",Leprechaun:"m","Mascot (Joey Bomber)":"m","Mrs Claus":"f","Ned Turkey":"m",Santa:"m",Witch:"f"};
 const genderOf=n=>GENDER[n]||GENDER[n.replace(/\s*\(.*\)$/,"")]||"m";
+/* Display order set by Message On Hold. Names not listed follow, A to Z. */
+const VOICE_ORDER={f:["Sarah","Rikki","Susan","Jenni","Billie","Issa"],m:["Kevin","Jameson","Harris","Philip"],s:["Issa","Maria"]};
+const orderOf=(n,g)=>{const i=VOICE_ORDER[g].indexOf(n.replace(/\s*\(.*\)$/,"").replace(/^Phillip$/,"Philip"));return i<0?999:i};
 let gender=null;
 /* ---------- ONE player for the whole page ---------- */
 const audio=new Audio(); audio.preload="none";
@@ -1203,9 +1207,9 @@ function renderLib(){
   let rows=L.cats[cat].slice();
   if(lib==="voice"){
     cats.hidden=!gender;
-    if(!gender){ul.innerHTML='<li class="g-wait">Choose <b>Male</b> or <b>Female</b> above to see the voices.</li>';syncUI();syncMix();return}
-    rows=rows.filter(([n])=>genderOf(n)===gender).sort((a,b)=>a[0].localeCompare(b[0]));
-    if(!rows.length){ul.innerHTML='<li class="g-wait">No '+(gender==="m"?"male":"female")+' voices in this category. Try another category.</li>'}
+    if(!gender){ul.innerHTML='<li class="g-wait">Choose <b>Male</b>, <b>Female</b> or <b>Spanish</b> above to see the voices.</li>';syncUI();syncMix();return}
+    rows=rows.filter(([n])=>genderOf(n)===gender).sort((a,b)=>orderOf(a[0],gender)-orderOf(b[0],gender)||a[0].localeCompare(b[0]));
+    if(!rows.length){ul.innerHTML='<li class="g-wait">No '+({m:"male",f:"female",s:"Spanish"})[gender]+' voices in this category. Try another category.</li>'}
   }else cats.hidden=false;
   rows.forEach(([name,file])=>{
     const src=A+file,li=document.createElement("li");li.className="track";
@@ -1228,7 +1232,9 @@ function setLib(name){
   renderLib();
 }
 document.querySelectorAll("[data-lib]").forEach(b=>b.onclick=()=>setLib(b.dataset.lib));
-document.querySelectorAll("#genderPick [data-g]").forEach(b=>b.onclick=()=>{gender=b.dataset.g;renderLib()});
+document.querySelectorAll("#genderPick [data-g]").forEach(b=>b.onclick=()=>{gender=b.dataset.g;
+  const C=LIB.voice.cats;if(!C[cat].some(([n])=>genderOf(n)===gender)){const k=Object.keys(C).find(k=>C[k].some(([n])=>genderOf(n)===gender));if(k)cat=k}
+  renderLib()});
 
 /* ---------- Audio mixer: one music bed + one voice, played together ---------- */
 const MIX={music:null,voice:null};
