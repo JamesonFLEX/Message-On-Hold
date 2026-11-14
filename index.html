@@ -1293,10 +1293,12 @@ let mixT=[],mixRaf=0,mixOn=false,mixStart=0,mixTotal=0,popKey="";
 const $=id=>document.getElementById(id);
 const lvl=k=>$(k==="voice"?"mxVoiceLvl":"mxMusicLvl").value/100;
 function toggleMix(kind,t){
-  if(MIX[kind]&&MIX[kind].src===t.src)MIX[kind]=null;else MIX[kind]=t;
+  const adding=!(MIX[kind]&&MIX[kind].src===t.src);
+  MIX[kind]=adding?t:null;
   if(mixOn)stopMix();
   syncMix();
   if(MIX.music&&MIX.voice){const key=MIX.music.src+"|"+MIX.voice.src;if(key!==popKey){popKey=key;openPop()}}
+  else if(adding){openNext(kind==="voice"?"music":"voice")}
 }
 function syncMix(){
   const n=(MIX.music?1:0)+(MIX.voice?1:0),c=$("mxCount");c.textContent=n;c.hidden=!n;
@@ -1369,10 +1371,25 @@ $("mxDuck").onchange=()=>{if(volOK&&mixOn)ramp(mA,musicTarget(),300)};
 document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>setLib(b.dataset.go));
 document.querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{MIX[b.dataset.rm]=null;if(mixOn)stopMix();syncMix()});
 /* pop-up */
-let popBack=null;
+let popBack=null,popMode="ready";
+const POPBADGE=$("mixPop").querySelector(".mix-badge").innerHTML;
+const ICON={voice:'<svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8"/></svg>',
+  music:'<svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>'};
+function showPop(go){popBack=document.activeElement;$("mixPop").hidden=false;requestAnimationFrame(()=>$("mixPop").classList.add("in"));$("mixPopGo").focus()}
+/* Step prompt: they picked one half of the mix, point them to the other half */
+function openNext(need){
+  popMode=need;const have=need==="music"?MIX.voice:MIX.music;
+  $("mixPop").querySelector(".mix-badge").innerHTML=ICON[need];
+  $("mixPopT").textContent=need==="music"?"Great voice! Now choose music for your mix":"Great track! Now choose a voice for your mix";
+  $("mixPopD").innerHTML="<b>"+esc(have.name)+"</b> is in your mix. "+(need==="music"?"Pick a music bed to play under the voice.":"Pick a voice to read your message over this music.");
+  $("mixPopGo").textContent=need==="music"?"Choose Music":"Choose a Voice";
+  showPop();
+}
 function openPop(){
+  popMode="ready";$("mixPop").querySelector(".mix-badge").innerHTML=POPBADGE;
+  $("mixPopT").textContent="Your mix is ready!";$("mixPopGo").textContent="Hear The Mix";
   $("mixPopD").innerHTML="<b>"+esc(MIX.voice.name)+"</b> over <b>"+esc(MIX.music.name)+"</b>. Hear how they sound together.";
-  popBack=document.activeElement;$("mixPop").hidden=false;requestAnimationFrame(()=>$("mixPop").classList.add("in"));$("mixPopGo").focus();
+  showPop();
 }
 function closePop(){$("mixPop").classList.remove("in");$("mixPop").hidden=true;if(popBack&&popBack.focus)popBack.focus()}
 function toMixer(){
@@ -1380,7 +1397,12 @@ function toMixer(){
   const y=tabs.getBoundingClientRect().top+scrollY-(hdr?hdr.offsetHeight:0)-90;
   scrollTo({top:Math.max(0,y),behavior:reduce?"auto":"smooth"});
 }
-$("mixPopGo").onclick=()=>{closePop();setLib("mixer");toMixer();playMix()};
+$("mixPopGo").onclick=()=>{
+  if(popMode==="ready"){closePop();setLib("mixer");toMixer();playMix();return}
+  const need=popMode;popBack=null;closePop();setLib(need);toMixer();
+  const tgt=need==="voice"?$("genderPick"):$("tracks");
+  setTimeout(()=>{const f=need==="voice"?tgt.querySelector("[data-g]"):tgt.querySelector(".mixadd");if(f)f.focus({preventScroll:true})},450);
+};
 $("mgGo").onclick=()=>{setLib("mixer");playMix()};
 $("mixPopLater").onclick=closePop;
 $("mixPop").addEventListener("click",e=>{if(e.target===$("mixPop"))closePop()});
