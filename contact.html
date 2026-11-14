@@ -446,5 +446,36 @@ render();
 ["gesturestart","gesturechange","gestureend"].forEach(function(t){document.addEventListener(t,function(e){e.preventDefault()},{passive:false})});
 })();
 </script>
+<script>
+/* Column fit: on wide screens, size the body text in a two-column section so the text column
+   fills the height of the column beside it (no dead space). Text stays real HTML, headings untouched. */
+(function(){
+  const SEL=".about,.spot,.pkg,.stx-grid,.split,.phero>.wrap";
+  const MIN=1,MAX=1.6,WIDE=1024;
+  const supports=CSS.supports&&CSS.supports("zoom","1.2");if(!supports)return;
+  function fit(g){
+    const kids=[...g.children].filter(k=>getComputedStyle(k).position!=="absolute");if(kids.length!==2)return;
+    const t=kids.find(k=>k.querySelector("h1,h2"));if(!t)return;const o=kids.find(k=>k!==t);
+    const body=[...t.querySelectorAll("p,ul,ol")].filter(e=>!e.closest(".btns,.eyebrow,.tag,.crumbs")&&!e.matches(".pull")&&!e.parentElement.closest("p,ul,ol"));
+    if(!body.length)return;
+    const set=z=>body.forEach(e=>e.style.zoom=z===1?"":String(z));
+    set(1);
+    if(innerWidth<WIDE||getComputedStyle(g).gridTemplateColumns.split(" ").length<2)return;
+    const h=el=>el.getBoundingClientRect().height;
+    const target=h(o);if(target<120)return;
+    let lo=MIN,hi=MAX;
+    set(hi);if(h(t)<=target){return}               /* even max size fits: keep max */
+    set(lo);if(h(t)>=target){return}               /* already taller: smallest allowed */
+    for(let i=0;i<12;i++){const m=(lo+hi)/2;set(m);if(h(t)>target)hi=m;else lo=m}
+    set(Math.round(lo*100)/100);
+  }
+  function run(){document.querySelectorAll(SEL).forEach(fit)}
+  let rq;const later=()=>{cancelAnimationFrame(rq);rq=requestAnimationFrame(run)};
+  addEventListener("resize",later);addEventListener("load",later);
+  document.querySelectorAll(SEL).forEach(g=>g.querySelectorAll("img,video").forEach(m=>{m.addEventListener("load",later);m.addEventListener("loadedmetadata",later);m.addEventListener("error",later)}));
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(later);
+  run();
+})();
+</script>
 </body>
 </html>
