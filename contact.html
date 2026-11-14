@@ -414,18 +414,28 @@ function summary(){
 }
 function payload(){
   var p={_subject:"Free 60-day trial request: "+((A.biz||"").trim()||((A.first||"")+" "+(A.last||"")).trim()),_template:"table",_captcha:"false",
-    "First name":A.first,"Last name":A.last,"Business name":A.biz||"—","Phone":A.phone,"Email":A.email,"Message":A.message||"—"};
+    "First name":A.first,"Last name":A.last,"Business name":A.biz||"—","Phone":A.phone,"email":A.email,"Message":A.message||"—",
+    _autoresponse:"Hi "+((A.first||"").trim()||"there")+",\n\nThanks for requesting your free 60-day trial of Message On Hold. We received your request and a member of our team will reach out shortly to set everything up.\n\nWant to keep exploring in the meantime? Hear our voice and music demos: https://jamesonflex.github.io/Message-On-Hold/#demos\n\nQuestions? Just reply to this email or call (800) 392-4664.\n\nThe Message On Hold Team"};
   summary().forEach(function(r){p[r[0]]=r[1]||"—"});return p;
 }
 function mailtoHref(){
   var p=payload(),body=Object.keys(p).filter(function(k){return k[0]!=="_"}).map(function(k){return k+": "+p[k]}).join("\n");
   return "mailto:"+LEAD_TO+"?subject="+encodeURIComponent(p._subject)+"&body="+encodeURIComponent(body);
 }
+/* Every request is also logged as a row in a Google Sheet (Apps Script web app). Empty = off. */
+var SHEET_URL="";
+function logToSheet(){
+  if(!SHEET_URL)return;
+  var row={submitted:new Date().toISOString(),first:A.first||"",last:A.last||"",business:A.biz||"",phone:A.phone||"",email:A.email||"",message:A.message||"",
+    business_type:A.type||"",locations:A.locations||"",interested_in:(A.interest||[]).join(", "),busy:A.busy||"",demo_mix:MIXTXT||"",page:location.href};
+  try{fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(row),keepalive:true})}catch(_){}
+}
 form.addEventListener("submit",function(e){
   e.preventDefault();
   if(form.querySelector('[name="_honey"]').value){finish(true);return}
   ["first","last","biz","phone","email"].forEach(function(k){var i=document.getElementById("f_"+k);if(i)A[k]=i.value});
   if(!check())return;
+  logToSheet();
   var btn=document.getElementById("qsubmit");btn.disabled=true;btn.classList.add("sending");document.getElementById("qsubmitTx").textContent="Sending…";
   var ctl=window.AbortController?new AbortController():null,tm=setTimeout(function(){if(ctl)ctl.abort()},12000);
   fetch("https://formsubmit.co/ajax/"+LEAD_TO,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload()),signal:ctl?ctl.signal:undefined})
