@@ -190,7 +190,7 @@ a.card .more{color:var(--accent);font-weight:600;margin-top:4px}
 .posts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:20px}
 .post{display:grid;grid-template-rows:auto 1fr;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;text-decoration:none;transition:transform .2s,border-color .2s}
 .post:hover{transform:translateY(-4px);border-color:rgba(51,176,230,.5)}
-.post .th{aspect-ratio:16/9;background:#0a2f47;overflow:hidden}
+.post .th{aspect-ratio:472/382;background:#0a2f47;overflow:hidden}
 .post .th img{width:100%;height:100%;object-fit:cover}
 .post .bd{padding:18px 20px 20px;display:grid;gap:10px;align-content:start}
 .post time{font:500 .76rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
@@ -359,7 +359,7 @@ footer::before{content:"";position:absolute;inset:0;z-index:-1;background:url("h
         <h4 style="margin-top:22px">Email</h4><p><a href="mailto:sales@messageonholdservice.com">sales@messageonholdservice.com</a></p>
         <h4 style="margin-top:22px">Office</h4><p>3600 FM 1488 Ste 120-295<br>Conroe, TX 77384</p></div>
     </div>
-    <div class="legal"><span>© 2026 Message On Hold. All rights reserved.</span><span style="display:flex;gap:18px"><a href="https://messageonholdphones.com/terms-of-service/" target="_blank" rel="noopener">Terms of Service</a><a href="https://messageonholdphones.com/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a></span></div>
+    <div class="legal"><span>© 2026 Message On Hold. All rights reserved.</span><span style="display:flex;gap:18px"><a href="terms-of-service.html">Terms of Service</a><a href="privacy-policy.html">Privacy Policy</a></span></div>
   </div>
 </footer>
 <script>["gesturestart","gesturechange","gestureend"].forEach(function(t){document.addEventListener(t,function(e){e.preventDefault()},{passive:false})});</script>
@@ -393,6 +393,10 @@ footer::before{content:"";position:absolute;inset:0;z-index:-1;background:url("h
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(later);
   run();
 })();
+</script>
+<script>
+/* Photos come from messageonholdphones.com: retry a failed load instead of dropping it */
+document.querySelectorAll("img[data-retry]").forEach(function(im){im.addEventListener("error",function(){var n=+(im.dataset.n||0);if(n<3){im.dataset.n=n+1;var u=im.getAttribute("src").split("?")[0];setTimeout(function(){im.src=u+"?r="+(n+1)},800*(n+1))}else{im.closest(".th")&&im.closest(".th").classList.add("noimg")}})});
 </script>
 <script>
 /* Photos come from messageonholdphones.com: retry a failed load instead of dropping it */
