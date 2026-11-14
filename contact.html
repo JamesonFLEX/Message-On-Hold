@@ -426,7 +426,7 @@ function mailtoHref(){
 var SHEET_URL="https://script.google.com/macros/s/AKfycbwOcFTiA6P8fRnmsA-izaEG_PD4KQMyv3Ewbbwk2gbcT6SSV3JE4Kmig3ReaGICy2ma/exec";
 function logToSheet(){
   if(!SHEET_URL)return;
-  var row={submitted:new Date().toISOString(),first:A.first||"",last:A.last||"",business:A.biz||"",phone:A.phone||"",email:A.email||"",message:A.message||"",
+  var row={submitted:new Date().toISOString(),first:A.first||"",last:A.last||"",business:A.biz||"",phone:(function(d){d=(d||"").replace(/\D/g,"").replace(/^1(?=\d{10}$)/,"");return d.length===10?"("+d.slice(0,3)+") "+d.slice(3,6)+"-"+d.slice(6):(A.phone||"")})(A.phone),email:A.email||"",message:A.message||"",
     business_type:A.type||"",locations:A.locations||"",interested_in:(A.interest||[]).join(", "),busy:A.busy||"",demo_mix:MIXTXT||"",page:location.href};
   try{fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(row),keepalive:true})}catch(_){}
 }
