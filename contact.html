@@ -423,7 +423,7 @@ function mailtoHref(){
   return "mailto:"+LEAD_TO+"?subject="+encodeURIComponent(p._subject)+"&body="+encodeURIComponent(body);
 }
 /* Every request is also logged as a row in a Google Sheet (Apps Script web app). Empty = off. */
-var SHEET_URL="";
+var SHEET_URL="https://script.google.com/macros/s/AKfycbwOcFTiA6P8fRnmsA-izaEG_PD4KQMyv3Ewbbwk2gbcT6SSV3JE4Kmig3ReaGICy2ma/exec";
 function logToSheet(){
   if(!SHEET_URL)return;
   var row={submitted:new Date().toISOString(),first:A.first||"",last:A.last||"",business:A.biz||"",phone:A.phone||"",email:A.email||"",message:A.message||"",
